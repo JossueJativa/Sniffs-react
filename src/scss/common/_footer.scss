@@ -1,0 +1,37 @@
+@import '../variables';
+
+.cont-footer {
+    width: 100%;
+    height: auto;
+    background-color: $color-primary;
+    color: #fff;
+    padding: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+
+    .qrContact {
+        width: 150px;
+        height: 150px;
+    }
+
+    .justify-content {
+        text-align: left;
+
+        .title-footer {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    }
+
+    .icons {
+        width: 10%;
+        height: auto;
+    }
+
+    .center {
+        width: 100%;
+    }
+}
