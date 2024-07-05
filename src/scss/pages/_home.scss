@@ -1,0 +1,164 @@
+@import '../variables';
+
+.container-2-grid {
+    display: grid;
+    grid-template-columns: 0.4fr 1fr;
+    grid-gap: 20px;
+    padding: 20px;
+    align-items: flex-start;
+
+    .grid-item {
+        padding: 20px;
+        border-radius: 5px;
+        height: 100%;
+
+        h3 {
+            border-bottom: 3px solid $line-color;
+        }
+
+        .grid-3-items {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+
+            .box-container {
+                width: 100%;
+                padding: 20px;
+                border-radius: 5px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                img {
+                    padding-bottom: 20px;
+                    height: 130px;
+                }
+
+                span {
+                    width: 100%;
+                    padding: 20px 0;
+                    padding-top: 20px;
+                    border-top: 2px solid $line-color;
+                }
+            }
+
+            .button-box {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                background-color: $line-color;
+                border-radius: 5px;
+                cursor: pointer;
+                padding: 20px;
+                transition: all 0.5s;
+
+                img {
+                    width: 100px;
+                    height: 100px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+
+                span {
+                    padding: 20px;
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+
+                &:hover {
+                    background-color: white;
+                    border: 2px solid $line-color;
+                }
+            }
+        }
+
+        .grid-5-items {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+
+            .img-text {
+                position: relative;
+                width: 100%;
+                height: 150px;
+                box-shadow: 10px 10px 15px gray;
+
+                .background-img {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 5px;
+                    }
+                }
+                span {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 5px;
+
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+
+                    background-color: $line-color;
+                    opacity: 0.8;
+                    box-shadow: 10px 10px 15px gray;
+                    color: white;
+                    font-size: 20px;
+                    font-weight: bold;
+                    cursor: pointer;
+
+                    top:50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+
+                    z-index: 1;
+
+                    transition: all 0.5s;
+
+                    &:hover {
+                        background-color: none;
+                        opacity: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    .text-center {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.box-primary {
+    width: 100%;
+    height: 20vh;
+
+    background-color: $line-color;
+    color: black;
+    font-weight: bold;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

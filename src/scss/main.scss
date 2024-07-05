@@ -1,8 +1,10 @@
 @use './common/footer';
 @use './common/floating';
-@use './media/mediaquery';
+@use './pages/home';
 
+@use './media/mediaquery';
 @use './common/carrousel';
+
 
 * {
     margin: 0;
