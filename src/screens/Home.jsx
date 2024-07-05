@@ -99,7 +99,7 @@ export const Home = () => {
                 </div>
             </div>
             <div className="box-primary">
-                <Typography variant="h3">¿Por qué elegirnos?</Typography>
+                <Typography variant="h3">La calidad es la mejor inversión</Typography>
             </div>
             <div className="container-2-grid">
                 <div className="grid-item text-center">
