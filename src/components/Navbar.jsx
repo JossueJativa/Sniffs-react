@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from "@emotion/react";
-import { AppBar, Box, Container, Toolbar, MenuItem, Button, Menu, Divider, IconButton, Drawer, List, ListItem, ListItemText, Breadcrumbs, Typography, Link as MuiLink, CssBaseline } from "@mui/material";
+import { AppBar, Box, Container, Toolbar, MenuItem, Button, Menu, Divider, IconButton, Drawer, List, ListItem, ListItemText, Typography, CssBaseline } from "@mui/material";
 import { lightTheme } from "../themes/ThemesUI";
 import { logo } from "../assets";
 import { Link } from "react-router-dom";
@@ -117,7 +117,7 @@ export const Navbar = () => {
                                 color="inherit"
                                 aria-label="open drawer"
                                 edge="end"
-                                onClick={toggleDrawer(true)}
+                                onClick={toggleDrawer(!drawerOpen)}
                                 sx={{ display: { xs: 'flex', md: 'none' } }}
                             >
                                 <MenuIcon />
@@ -130,6 +130,7 @@ export const Navbar = () => {
                 anchor="right"
                 open={drawerOpen}
                 onClose={toggleDrawer(false)}
+                sx={{ zIndex: (theme) => theme.zIndex.drawer + 2 }}
             >
                 {drawer}
             </Drawer>

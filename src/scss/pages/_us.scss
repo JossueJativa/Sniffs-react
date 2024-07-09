@@ -1,0 +1,95 @@
+@import '../variables';
+
+.box-color {
+    background-color: $line-color;
+    width: 100%;
+    height: auto;
+
+    .container-2-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+        justify-content: center;
+        align-items: center;
+        justify-items: center;
+        padding: 0 60px;
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: auto;
+            justify-content: left;
+            align-items: center;
+            justify-items: left;
+            padding: 20px;
+
+            .title {
+                font-size: 2rem;
+                font-weight: 700;
+                color: $color-primary;
+                margin-bottom: 20px;
+            }
+
+            .cl-white {
+                color: white;
+            }
+
+            .text-content {
+                font-size: 1.5rem;
+                font-weight: 400;
+                color: $color-primary;
+            }
+        }
+    }
+}
+
+.container-text {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+    padding-top: 20px;
+
+    .title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: $line-color;
+        margin-bottom: 20px;
+    }
+
+    .cl-blue {
+        color: $color-primary;
+    }
+}
+
+.grid-4-item {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    padding: 0 60px;
+
+    .grid-item {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        justify-content: left;
+        align-items: center;
+        justify-items: left;
+        padding: 20px;
+
+        .text-content {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: $color-primary;
+        }
+    }
+}

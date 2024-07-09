@@ -1,3 +1,5 @@
+@import '../variables';
+
 @media screen and (max-width: 768px) {
     .social-media {
         display: none;
@@ -37,6 +39,106 @@
             }
         }
     }
+
+    .box-color {
+        .container-2-grid {
+            grid-template-columns: 1fr;
+            padding: 0px;
+
+            .grid-item {
+                .title {
+                    font-size: 1.5rem;
+                    margin-bottom: 10px;
+                }
+
+                .text-content {
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+
+    .grid-4-item {
+        grid-template-columns: repeat(2, 1fr);
+
+        .text-content {
+            font-size: 1rem;
+        }
+    }
+
+    .container-img-text-btn {
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+        
+    .flex-row  {
+        grid-template-columns: 1fr;
+    }
+
+    .custom-btn {
+        padding: 10px 20px;
+    }
+
+    .grid-2-items {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 0 60px;
+
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 10px;
+
+            .brown-background {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 50px;
+                background-color: $line-color;
+                height: 100%;
+
+                p {
+                    font-size: 1.5rem;
+                    color: #fff;
+                    text-align: Center;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    .grid-3-item {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 0 60px;
+
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+
+            p {
+                font-size: 1.5rem;
+                color: $line-color;
+                text-align: justify;
+                font-weight: bold;
+            }
+        }
+    
+    }
 }
 
 // Tablet
@@ -61,6 +163,91 @@
                 .img-text {
                     height: 150px;
                 }
+            }
+        }
+    }
+
+    .grid-4-item {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .container-img-text-btn {
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .flex-row {
+        grid-template-columns: repeat(2, 1fr);
+
+        .grid-2-item  {
+            grid-template-columns: 0.3fr 1fr;
+
+            .item {
+                padding: 20px;
+            }
+        }
+    }
+
+    .custom-btn {
+        padding: 10px 20px;
+    }
+
+    .grid-2-items {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 0 60px;
+
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 10px;
+
+            .brown-background {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 50px;
+                background-color: $line-color;
+                height: 100%;
+
+                p {
+                    font-size: 2rem;
+                    color: #fff;
+                    text-align: Center;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    .grid-3-item {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        padding: 0 60px;
+
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+
+            p {
+                font-size: 1.5rem;
+                color: $line-color;
+                text-align: justify;
+                font-weight: bold;
             }
         }
     }

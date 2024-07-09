@@ -25,7 +25,10 @@ export const Carrousel = ({ backgroundIMG, carrousel = [] }) => {
         <div
             className="carrousel"
         >
-            <img src={backgroundIMG} alt="background" className="carrousel-background" />
+            <img src={backgroundIMG} alt="background" className="carrousel-background" style={{
+                width: '100%',
+                height: '100%',
+            }}/>
             <div className="container-carrousel">
                 <div className="carrousel-list" ref={listRef}>
                     {carrousel.map((img, index) => (

@@ -1,6 +1,20 @@
-export { default as backgroundCarrousel } from './home/banner-inicio.svg';
 export { default as img1 } from './home/banner1.svg';
 export { default as img2 } from './home/banner2.svg';
 export { default as img3 } from './home/banner3.svg';
 export { default as img4 } from './home/banner4.svg';
 export { default as img5 } from './home/banner5.svg';
+
+export { default as banner } from './us/banner-quienes.png';
+export { default as banner1 } from './us/banner1.svg';
+export { default as banner2 } from './us/banner2.svg';
+export { default as banner3 } from './us/banner3.svg';
+
+export { default as bannerAutos1 } from './autos-motos/autos1.svg';
+export { default as bannerAutos2 } from './autos-motos/autos2.svg';
+export { default as bannerAutos3 } from './autos-motos/autos3.svg';
+export { default as bannerAutos } from './autos-motos/banner-autos-motos-01.png';
+
+export { default as bannerPesados } from './pesados/c.png';
+export { default as bannerPesados1 } from './pesados/pesados1.svg';
+export { default as bannerPesados2 } from './pesados/pesados2.svg';
+export { default as bannerPesados3 } from './pesados/pesados3.svg';

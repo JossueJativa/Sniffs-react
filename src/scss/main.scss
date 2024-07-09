@@ -1,6 +1,10 @@
 @use './common/footer';
 @use './common/floating';
+@use './common/buttonstyle';
 @use './pages/home';
+@use './pages/us';
+@use './pages/autosmotos';
+@use './pages/pesados';
 
 @use './media/mediaquery';
 @use './common/carrousel';

@@ -1,0 +1,10 @@
+export { default as mision } from './icono-mision.svg';
+export { default as vision } from './icono-vision.svg';
+export { default as innovacion } from './iconos valores1.svg';
+export { default as confianza } from './iconos valores-02.svg';
+export { default as calidad } from './iconos valores-03.svg';
+export { default as integridad } from './iconos valores-04.svg';
+export { default as tecnologia } from './iconos valores-05.svg';
+export { default as mejoraContinua } from './iconos valores-06.svg';
+export { default as orientacion_al_cliente } from './iconos valores-07.svg';
+export { default as seguridad_al_cliente } from './iconos valores-08.svg';

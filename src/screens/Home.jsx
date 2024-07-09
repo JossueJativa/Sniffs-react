@@ -2,10 +2,11 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import { Carrousel } from '../components';
 import {
-    backgroundCarrousel, img1, img2, img3, img4, img5,
+    img1, img2, img3, img4, img5,
     icon1, icon2, icon3, icon4, icon5, icon6,
     autos_motos, camiones, personas, mascotas, ganadería,
-    WhatsApp, demo, descarga
+    WhatsApp, demo, descarga,
+    banner
 } from '../assets';
 import { Link } from 'react-router-dom';
 
@@ -14,7 +15,7 @@ export const Home = () => {
 
     return (
         <div className="main-img">
-            <Carrousel backgroundIMG={backgroundCarrousel} carrousel={listImg} />
+            <Carrousel backgroundIMG={banner} carrousel={listImg} />
 
             <div className="container-2-grid">
                 <div className="grid-item text-center">

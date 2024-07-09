@@ -44,7 +44,7 @@ export const Footer = () => {
                 </Grid>
             </Grid>
             <div className="center">
-                <p>© 2021 Sniffsec. Todos los derechos reservados.</p>
+                <p>© Powered by Crystian Muños | 2023</p>
             </div>
         </footer>
     );
