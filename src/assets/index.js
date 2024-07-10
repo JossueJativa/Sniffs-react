@@ -6,7 +6,10 @@ export {
     img1, img2, img3, img4, img5,
     banner, banner1, banner2, banner3,
     bannerAutos1, bannerAutos2, bannerAutos3, bannerAutos,
-    bannerPesados, bannerPesados1, bannerPesados2, bannerPesados3
+    bannerPesados, bannerPesados1, bannerPesados2, bannerPesados3,
+    bannerPersonas, bannerPersonas1, bannerPersonas2, bannerPersonas3,
+    bannerMascotas, bannerMascotas1, bannerMascotas2, bannerMascotas3,
+    bannerGanaderia, bannerGanaderia1, bannerGanaderia2, bannerGanaderia3
 } from './carrousel';
 export {
     icon1, icon2, icon3, icon4, icon5,
@@ -27,3 +30,15 @@ export {
     imagenpesados4, imagenpesados5, imagenpesados6,
     imagenpesados7
 } from './pesados';
+export {
+    persona1, persona2, persona3, persona4,
+    persona5, persona6
+} from './personas';
+export {
+    mascotasimg, iconoMascotas1, iconoMascotas2, iconoMascotas3,
+    iconoMascotas4, iconoMascotas5
+} from './mascotas';
+export {
+    ganaderia1, ganaderia2, ganaderia3, ganaderia4,
+    ganaderia5, ganaderia6
+} from './ganaderia';

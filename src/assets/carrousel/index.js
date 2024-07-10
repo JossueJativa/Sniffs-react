@@ -18,3 +18,18 @@ export { default as bannerPesados } from './pesados/c.png';
 export { default as bannerPesados1 } from './pesados/pesados1.svg';
 export { default as bannerPesados2 } from './pesados/pesados2.svg';
 export { default as bannerPesados3 } from './pesados/pesados3.svg';
+
+export { default as bannerPersonas } from './personas/baner-personas.png';
+export { default as bannerPersonas1 } from './personas/personas1.svg';
+export { default as bannerPersonas2 } from './personas/personas2.svg';
+export { default as bannerPersonas3 } from './personas/personas3.svg';
+
+export { default as bannerMascotas } from './mascotas/banner-mascotas.png';
+export { default as bannerMascotas1 } from './mascotas/mascota1.svg';
+export { default as bannerMascotas2 } from './mascotas/mascota2.svg';
+export { default as bannerMascotas3 } from './mascotas/mascota3.svg';
+
+export { default as bannerGanaderia } from './ganaderia/banner-ganaderia.png';
+export { default as bannerGanaderia1 } from './ganaderia/g-01.svg';
+export { default as bannerGanaderia2 } from './ganaderia/g-02.svg';
+export { default as bannerGanaderia3 } from './ganaderia/g-03.svg';
