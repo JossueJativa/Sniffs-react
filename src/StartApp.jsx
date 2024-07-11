@@ -9,6 +9,7 @@ import { Pesados } from './screens/Pesados';
 import { Personas } from './screens/Personas';
 import { Mascotas } from './screens/Mascotas';
 import { Ganaderia } from './screens/Ganaderia';
+import { Planes } from './screens/Planes';
 
 export const StartApp = () => {
     return (
@@ -24,6 +25,7 @@ export const StartApp = () => {
                     <Route path='/personas' element={<Personas />} />
                     <Route path='/mascotas' element={<Mascotas />} />
                     <Route path='/ganaderia' element={<Ganaderia />} />
+                    <Route path='/planes' element={<Planes />} />
                     <Route path="*" element={<div>404</div>} />
                 </Routes>
             </Box>

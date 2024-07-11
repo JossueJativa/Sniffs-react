@@ -9,7 +9,8 @@ export {
     bannerPesados, bannerPesados1, bannerPesados2, bannerPesados3,
     bannerPersonas, bannerPersonas1, bannerPersonas2, bannerPersonas3,
     bannerMascotas, bannerMascotas1, bannerMascotas2, bannerMascotas3,
-    bannerGanaderia, bannerGanaderia1, bannerGanaderia2, bannerGanaderia3
+    bannerGanaderia, bannerGanaderia1, bannerGanaderia2, bannerGanaderia3,
+    bannerPlanes
 } from './carrousel';
 export {
     icon1, icon2, icon3, icon4, icon5,
@@ -42,3 +43,8 @@ export {
     ganaderia1, ganaderia2, ganaderia3, ganaderia4,
     ganaderia5, ganaderia6
 } from './ganaderia';
+
+export {
+    autos_planes, camiones_planes, mascotas_planes,
+    ganadería_planes, personas_planes, motos_planes
+} from './planes';

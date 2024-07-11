@@ -135,6 +135,62 @@
         }
     
     }
+
+    .context-to-center {
+        padding: 0 20px;
+
+        p {
+            font-size: 1.5rem;
+        }
+        
+        .grid-3-item {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            width: 100%;
+            height: 100%;
+
+            .item {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+
+                .img-text {
+                    position: relative;
+                    width: 100%;
+                    height: 150px;
+                    box-shadow: 10px 10px 15px gray;
+
+                    .background-img {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            border-radius: 5px;
+                        }
+                    }
+                    span {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 5px;
+
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
 }
 
 // Tablet
@@ -240,6 +296,62 @@
                 color: $line-color;
                 text-align: justify;
                 font-weight: bold;
+            }
+        }
+    }
+
+    .context-to-center {
+        padding: 0 20px;
+
+        p {
+            font-size: 1.5rem;
+        }
+        
+        .grid-3-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            width: 100%;
+            height: 100%;
+
+            .item {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+
+                .img-text {
+                    position: relative;
+                    width: 100%;
+                    height: 150px;
+                    box-shadow: 10px 10px 15px gray;
+
+                    .background-img {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            border-radius: 5px;
+                        }
+                    }
+                    span {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 5px;
+
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+                    }
+                }
             }
         }
     }

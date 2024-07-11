@@ -33,3 +33,5 @@ export { default as bannerGanaderia } from './ganaderia/banner-ganaderia.png';
 export { default as bannerGanaderia1 } from './ganaderia/g-01.svg';
 export { default as bannerGanaderia2 } from './ganaderia/g-02.svg';
 export { default as bannerGanaderia3 } from './ganaderia/g-03.svg';
+
+export { default as bannerPlanes } from './planes/banner-planes-01.png';
