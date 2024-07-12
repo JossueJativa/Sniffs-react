@@ -31,7 +31,7 @@ export const Login = () => {
                     <h4>
                         <strong>Inicio de sesión</strong>
                     </h4>
-                    <FormControl sx={{ m: 1, width: '69ch' }} variant="outlined">
+                    <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
                         <TextField
                             label="Email o Correo"
                             variant="outlined"
@@ -42,7 +42,7 @@ export const Login = () => {
                         />
                     </FormControl>
                     <br />
-                    <FormControl sx={{ m: 1, width: '69ch' }} variant="outlined">
+                    <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-password"
@@ -65,23 +65,23 @@ export const Login = () => {
                             label="Password"
                         />
                     </FormControl>
-                    <FormControl sx={{ m: 1, width: '69ch' }} variant="outlined">
+                    <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
                         <p>
                             Al continuar, acepta las <span>Condiciones de uso</span> y el 
                             <span> Aviso de privacidad</span> de Sniffs.
                         </p>
-                        <a href="#" className="custom-btn" style={{ textAlign: 'center' }}>
+                        <button type="submit" href="#" className="custom-btn" style={{ textAlign: 'center' }}>
                             Continuar
-                        </a>
+                        </button>
                     </FormControl>
-                    <FormControl sx={{ m: 1, width: '69ch' }} variant="outlined">
-                        <a href="#" className="custom-btn" style={{ textAlign: 'center' }}>
+                    <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
+                        <a href="/register" className="custom-btn" style={{ textAlign: 'center' }}>
                             Crear una cuenta Sniffs
                         </a>
                     </FormControl>
                     <hr />
-                    <FormControl sx={{ m: 1, width: '69ch' }} variant="outlined">
-                        <a href="#" className="custom-btn" style={{ textAlign: 'center' }}>
+                    <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
+                        <a href="/register" className="custom-btn" style={{ textAlign: 'center' }}>
                             Iniciar con Google
                         </a>
                     </FormControl>
