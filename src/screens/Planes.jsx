@@ -67,7 +67,7 @@ export const Planes = () => {
                             <div className="background-img">
                                 <img src={mascotas_planes} alt="icon" width={100} />
                             </div>
-                            <Link to="/mascotas">
+                            <Link to="/planes_mascotas">
                                 <Typography variant="p">Mascotas</Typography>
                             </Link>
                         </div>
@@ -77,7 +77,7 @@ export const Planes = () => {
                             <div className="background-img">
                                 <img src={ganadería_planes} alt="icon" width={100} />
                             </div>
-                            <Link to="/ganaderia">
+                            <Link to="/planes_ganaderia">
                                 <Typography variant="p">Ganadería</Typography>
                             </Link>
                         </div>
