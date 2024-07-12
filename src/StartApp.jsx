@@ -11,6 +11,8 @@ import { Mascotas } from './screens/Mascotas';
 import { Ganaderia } from './screens/Ganaderia';
 import { Planes } from './screens/Planes';
 import { Login } from './screens/Login';
+import { Planes_Autos } from './screens/Planes_Autos';
+import { Planes_Motos } from './screens/Planes_Motos';
 
 export const StartApp = () => {
     return (
@@ -28,6 +30,8 @@ export const StartApp = () => {
                     <Route path='/ganaderia' element={<Ganaderia />} />
                     <Route path='/planes' element={<Planes />} />
                     <Route path='/login' element={<Login />} />
+                    <Route path='/planes_autos' element={<Planes_Autos />} />
+                    <Route path='/planes_motos' element={<Planes_Motos />} />
                     <Route path="*" element={<div>404</div>} />
                 </Routes>
             </Box>

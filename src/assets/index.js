@@ -46,5 +46,7 @@ export {
 
 export {
     autos_planes, camiones_planes, mascotas_planes,
-    ganadería_planes, personas_planes, motos_planes
+    ganadería_planes, personas_planes, motos_planes,
+    planes_autos_banner, planes_motos_banner, planes_personas_banner,
+    planes_pesados_banner, planes_mascotas_banner, planes_ganaderia_banner
 } from './planes';
