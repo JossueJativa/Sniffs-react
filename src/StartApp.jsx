@@ -13,6 +13,8 @@ import { Planes } from './screens/Planes';
 import { Login } from './screens/Login';
 import { Planes_Autos } from './screens/Planes_Autos';
 import { Planes_Motos } from './screens/Planes_Motos';
+import { Planes_Camiones } from './screens/Planes_camiones';
+import { Planes_Personas } from './screens/Planes_personas';
 
 export const StartApp = () => {
     return (
@@ -32,6 +34,8 @@ export const StartApp = () => {
                     <Route path='/login' element={<Login />} />
                     <Route path='/planes_autos' element={<Planes_Autos />} />
                     <Route path='/planes_motos' element={<Planes_Motos />} />
+                    <Route path='/planes_camiones' element={<Planes_Camiones />} />
+                    <Route path="planes_personas" element={<Planes_Personas />} />
                     <Route path="*" element={<div>404</div>} />
                 </Routes>
             </Box>

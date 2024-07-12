@@ -47,7 +47,7 @@ export const Planes = () => {
                             <div className="background-img">
                                 <img src={camiones_planes} alt="icon" width={100} />
                             </div>
-                            <Link to="/pesados">
+                            <Link to="/planes_camiones">
                                 <Typography variant="p">Camiones</Typography>
                             </Link>
                         </div>
@@ -57,7 +57,7 @@ export const Planes = () => {
                             <div className="background-img">
                                 <img src={personas_planes} alt="icon" width={100} />
                             </div>
-                            <Link to="/personas">
+                            <Link to="/planes_personas">
                                 <Typography variant="p">Personas</Typography>
                             </Link>
                         </div>
