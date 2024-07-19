@@ -1,23 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from "@emotion/react";
 import { AppBar, Box, Container, Toolbar, MenuItem, Button, Menu, Divider, IconButton, Drawer, List, ListItem, ListItemText, Typography, CssBaseline } from "@mui/material";
 import { lightTheme } from "../themes/ThemesUI";
 import { logo } from "../assets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MenuIcon from '@mui/icons-material/Menu';
+import { logout } from '../Controllers/userController';
+import { jwtDecode } from 'jwt-decode';
 
 export const Navbar = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const open = Boolean(anchorEl);
+    const [anchorElProfile, setAnchorElProfile] = useState(null);
+    const [anchorElLogin, setAnchorElLogin] = useState(null);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const openProfile = Boolean(anchorElProfile);
+    const openLogin = Boolean(anchorElLogin);
+    const navigate = useNavigate();
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const refresh = localStorage.getItem('refresh');
+        if (token && refresh) {
+            setLoggedIn(true);
+        } else {
+            setLoggedIn(false);
+        }
+    }, []);
+
+    const handleClickProfile = (event) => {
+        setAnchorElProfile(event.currentTarget);
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
+    const handleCloseProfile = () => {
+        setAnchorElProfile(null);
+    };
+
+    const handleClickLogin = (event) => {
+        setAnchorElLogin(event.currentTarget);
+    };
+
+    const handleCloseLogin = () => {
+        setAnchorElLogin(null);
     };
 
     const toggleDrawer = (open) => (event) => {
@@ -25,6 +49,26 @@ export const Navbar = () => {
             return;
         }
         setDrawerOpen(open);
+    };
+
+    const handleLogout = async () => {
+        const access = localStorage.getItem('token');
+        const refresh = localStorage.getItem('refresh');
+
+        const decoded = jwtDecode(access);
+        const user_id = decoded.user_id;
+
+        const response = await logout({ user_id, refresh });
+
+        if (response) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('refresh');
+            setLoggedIn(false);
+            navigate('/login');
+            window.location.reload();
+        } else {
+            console.error("Error al cerrar sesión");
+        }
     };
 
     const drawer = (
@@ -57,15 +101,31 @@ export const Navbar = () => {
                     <ListItemText primary="Planes" />
                 </ListItem>
                 <Divider />
-                <Typography variant="h6" component="div" sx={{ p: 2 }}>
-                    Ingresar
-                </Typography>
-                <ListItem button component={Link} to="/login">
-                    <ListItemText primary="Sniffs personas" />
-                </ListItem>
-                <ListItem button component={Link} to="">
-                    <ListItemText primary="Sniffs empresas" />
-                </ListItem>
+                {!loggedIn ? (
+                    <>
+                        <Typography variant="h6" component="div" sx={{ p: 2 }}>
+                            Ingresar
+                        </Typography>
+                        <ListItem button component={Link} to="/login">
+                            <ListItemText primary="Sniffs personas" />
+                        </ListItem>
+                        <ListItem button component={Link} to="">
+                            <ListItemText primary="Sniffs empresas" />
+                        </ListItem>
+                    </>
+                ) : (
+                    <>
+                        <Typography variant="h6" component="div" sx={{ p: 2 }}>
+                            Perfil
+                        </Typography>
+                        <ListItem button component={Link} to="/profile">
+                            <ListItemText primary="Ver perfil" />
+                        </ListItem>
+                        <ListItem button onClick={handleLogout}>
+                            <ListItemText primary="Cerrar sesión" />
+                        </ListItem>
+                    </>
+                )}
             </List>
         </Box>
     );
@@ -88,30 +148,61 @@ export const Navbar = () => {
                                 <MenuItem component={Link} to="/mascotas">Mascotas</MenuItem>
                                 <MenuItem component={Link} to="/ganaderia">Ganadería</MenuItem>
                                 <MenuItem component={Link} to="/planes">Planes</MenuItem>
-                                <Button
-                                    id="demo-customized-button"
-                                    aria-controls={open ? 'demo-customized-menu' : undefined}
-                                    aria-haspopup="true"
-                                    aria-expanded={open ? 'true' : undefined}
-                                    variant="contained"
-                                    disableElevation
-                                    onClick={handleClick}
-                                    endIcon={<KeyboardArrowDownIcon />}
-                                >
-                                    Ingresar
-                                </Button>
-                                <Menu
-                                    id="demo-customized-menu"
-                                    anchorEl={anchorEl}
-                                    open={open}
-                                    onClose={handleClose}
-                                    MenuListProps={{
-                                        'aria-labelledby': 'demo-customized-button',
-                                    }}
-                                >
-                                    <MenuItem component={Link} to="/login" onClick={handleClose}>Sniffs personas</MenuItem>
-                                    <MenuItem component={Link} to="" onClick={handleClose}>Sniffs empresas</MenuItem>
-                                </Menu>
+                                {loggedIn ? (
+                                    <>
+                                        <Button
+                                            id="profile-button"
+                                            aria-controls={openProfile ? 'profile-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={openProfile ? 'true' : undefined}
+                                            variant="contained"
+                                            disableElevation
+                                            onClick={handleClickProfile}
+                                            endIcon={<KeyboardArrowDownIcon />}
+                                        >
+                                            Perfil
+                                        </Button>
+                                        <Menu
+                                            id="profile-menu"
+                                            anchorEl={anchorElProfile}
+                                            open={openProfile}
+                                            onClose={handleCloseProfile}
+                                            MenuListProps={{
+                                                'aria-labelledby': 'profile-button',
+                                            }}
+                                        >
+                                            <MenuItem component={Link} to="/profile" onClick={handleCloseProfile}>Ver perfil</MenuItem>
+                                            <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
+                                        </Menu>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Button
+                                            id="login-button"
+                                            aria-controls={openLogin ? 'login-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={openLogin ? 'true' : undefined}
+                                            variant="contained"
+                                            disableElevation
+                                            onClick={handleClickLogin}
+                                            endIcon={<KeyboardArrowDownIcon />}
+                                        >
+                                            Ingresar
+                                        </Button>
+                                        <Menu
+                                            id="login-menu"
+                                            anchorEl={anchorElLogin}
+                                            open={openLogin}
+                                            onClose={handleCloseLogin}
+                                            MenuListProps={{
+                                                'aria-labelledby': 'login-button',
+                                            }}
+                                        >
+                                            <MenuItem component={Link} to="/login" onClick={handleCloseLogin}>Sniffs personas</MenuItem>
+                                            <MenuItem component={Link} to="" onClick={handleCloseLogin}>Sniffs empresas</MenuItem>
+                                        </Menu>
+                                    </>
+                                )}
                             </Box>
                             <IconButton
                                 color="inherit"

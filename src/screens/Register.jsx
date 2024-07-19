@@ -1,7 +1,8 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { register } from "../Controllers/userController";
 
 export const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +13,9 @@ export const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [phone, setPhone] = useState("");
     const [idNumber, setIdNumber] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const navigate = useNavigate();
 
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -29,9 +33,28 @@ export const Register = () => {
         e.preventDefault();
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        // Add your form submission logic here
+
+        if (!name || !email || !password || !confirmPassword || !phone || !idNumber) {
+            setErrorMessage("Todos los campos son obligatorios");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setErrorMessage("Las contraseñas no coinciden");
+            return;
+        }
+
+        const response = await register(
+            { name, email, password, confirm: confirmPassword, phone, identity: idNumber }
+        )
+
+        if (response) {
+            navigate('/login');
+        } else {
+            setErrorMessage("Error en el registro, intente nuevamente");
+        }
     }
 
     return (
@@ -41,6 +64,7 @@ export const Register = () => {
                     <h4>
                         <strong>Crear usuario</strong>
                     </h4>
+                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                     <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
                         <TextField
                             label="Nombre"
@@ -132,7 +156,7 @@ export const Register = () => {
                             Al continuar, acepta las <span>Condiciones de uso</span> y el 
                             <span> Aviso de privacidad</span> de Sniffs.
                         </p>
-                        <button type="submit" className="custom-btn" style={{ textAlign: 'center' }}>
+                        <button type="submit" className="custom-btn" style={{ textAlign: 'center', cursor: 'pointer' }}>
                             Continuar
                         </button>
                     </FormControl>

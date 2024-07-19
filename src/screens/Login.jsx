@@ -1,11 +1,15 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import { useState } from "react";
+import { login } from "../Controllers/userController";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
 
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -23,7 +27,31 @@ export const Login = () => {
         e.preventDefault();
     }
 
-    const handleSubmit = (e) => { }
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+
+        if (!email || !password) {
+            setErrorMessage("Por favor, complete todos los campos.");
+            return;
+        }
+
+        try {
+            const response = await login({ username: email, password });
+
+            if (response) {
+                localStorage.setItem('token', response.access);
+                localStorage.setItem('refresh', response.refresh);
+                navigate('/');
+                window.location.reload();
+            } else {
+                setErrorMessage("Credenciales incorrectas, por favor intente nuevamente.");
+            }
+        } catch (error) {
+            console.error("Error durante el inicio de sesión:", error);
+            setErrorMessage("Ocurrió un error, por favor intente nuevamente más tarde.");
+        }
+    }
+
     return (
         <div className="login-container">
             <div className="center-form">
@@ -31,9 +59,10 @@ export const Login = () => {
                     <h4>
                         <strong>Inicio de sesión</strong>
                     </h4>
+                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                     <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
                         <TextField
-                            label="Email o Correo"
+                            label="Email, Celular o Usuario"
                             variant="outlined"
                             fullWidth
                             value={email}
