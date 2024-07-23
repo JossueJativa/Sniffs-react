@@ -7,7 +7,12 @@ export const getUser = async({ user_id, refresh }) => {
             userAPI + `/${user_id}/?refresh=${refresh}`
         );
     
-        return response.data;    
+        if (response.status === 200) {
+            return response.data;
+        }
+        else {
+            return null;
+        }
     }
     catch (error) {
         console.error(error);
@@ -26,7 +31,6 @@ export const login = async({ username, password }) => {
             return response.data;
         }
         else {
-            console.log(response);
             return null;
         }
     }
@@ -46,9 +50,11 @@ export const logout = async({ user_id, refresh }) => {
         if (response.status === 200) {
             return response.data;
         }
-        else {
-            console.log(response);
-            return null;
+        else if (response.status === 400 ) {
+            console.log(`Error + ${response.data.error}`);
+            if (response.data.error === "Refresh token is expired.") {
+                return response.data;
+            }
         }
     }
     catch (error) {

@@ -1,3 +1,5 @@
+// src/components/Navbar.js
+
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from "@emotion/react";
 import { AppBar, Box, Container, Toolbar, MenuItem, Button, Menu, Divider, IconButton, Drawer, List, ListItem, ListItemText, Typography, CssBaseline } from "@mui/material";
@@ -6,7 +8,7 @@ import { logo } from "../assets";
 import { Link, useNavigate } from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MenuIcon from '@mui/icons-material/Menu';
-import { logout } from '../Controllers/userController';
+import { logout, getUser } from '../Controllers/userController';
 import { jwtDecode } from 'jwt-decode';
 
 export const Navbar = () => {
@@ -14,18 +16,26 @@ export const Navbar = () => {
     const [anchorElLogin, setAnchorElLogin] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
     const openProfile = Boolean(anchorElProfile);
     const openLogin = Boolean(anchorElLogin);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const refresh = localStorage.getItem('refresh');
-        if (token && refresh) {
-            setLoggedIn(true);
-        } else {
-            setLoggedIn(false);
-        }
+        const fetchUserData = async () => {
+            const token = localStorage.getItem('token');
+            const refresh = localStorage.getItem('refresh');
+            if (token && refresh) {
+                setLoggedIn(true);
+                const decoded = jwtDecode(token);
+                const user_id = decoded.user_id;
+                const userData = await getUser({user_id, refresh});
+                setUser(userData);
+            } else {
+                setLoggedIn(false);
+            }
+        };
+        fetchUserData();
     }, []);
 
     const handleClickProfile = (event) => {
@@ -64,6 +74,7 @@ export const Navbar = () => {
             localStorage.removeItem('token');
             localStorage.removeItem('refresh');
             setLoggedIn(false);
+            setUser(null);
             navigate('/login');
             window.location.reload();
         } else {
@@ -119,7 +130,22 @@ export const Navbar = () => {
                             Perfil
                         </Typography>
                         <ListItem button component={Link} to="/profile">
-                            <ListItemText primary="Ver perfil" />
+                            <ListItemText primary="Mi cuenta" />
+                        </ListItem>
+                        <ListItem button component={Link} to="/acceso">
+                            <ListItemText primary="Acceso y seguridad" />
+                        </ListItem>
+                        <ListItem button component={Link} to="/mis-personas">
+                            <ListItemText primary="Personas" />
+                        </ListItem>
+                        <ListItem button component={Link} to="/mis-facturaciones">
+                            <ListItemText primary="Facturas" />
+                        </ListItem>
+                        <ListItem button component={Link} to="/mis-pedidos">
+                            <ListItemText primary="Mis pedidos" />
+                        </ListItem>
+                        <ListItem button component={Link} to="/historial">
+                            <ListItemText primary="Historial de compras" />
                         </ListItem>
                         <ListItem button onClick={handleLogout}>
                             <ListItemText primary="Cerrar sesión" />
@@ -160,7 +186,7 @@ export const Navbar = () => {
                                             onClick={handleClickProfile}
                                             endIcon={<KeyboardArrowDownIcon />}
                                         >
-                                            Perfil
+                                            <img src={user?.photo} alt="User" style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 10 }} />
                                         </Button>
                                         <Menu
                                             id="profile-menu"
@@ -171,7 +197,12 @@ export const Navbar = () => {
                                                 'aria-labelledby': 'profile-button',
                                             }}
                                         >
-                                            <MenuItem component={Link} to="/profile" onClick={handleCloseProfile}>Ver perfil</MenuItem>
+                                            <MenuItem component={Link} to="/profile" onClick={handleCloseProfile}>Mi cuenta</MenuItem>
+                                            <MenuItem component={Link} to="/acceso" onClick={handleCloseProfile}>Acceso y seguridad</MenuItem>
+                                            <MenuItem component={Link} to="/mis-personas" onClick={handleCloseProfile}>Personas</MenuItem>
+                                            <MenuItem component={Link} to="/mis-facturaciones" onClick={handleCloseProfile}>Facturas</MenuItem>
+                                            <MenuItem component={Link} to="/mis-pedidos" onClick={handleCloseProfile}>Mis pedidos</MenuItem>
+                                            <MenuItem component={Link} to="/historial" onClick={handleCloseProfile}>Historial de compras</MenuItem>
                                             <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
                                         </Menu>
                                     </>

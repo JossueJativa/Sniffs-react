@@ -18,6 +18,9 @@ import { Planes_Personas } from './screens/Planes_personas';
 import { Planes_Mascotas } from './screens/Planes_Mascotas';
 import { Planes_Ganaderia } from './screens/Planes_Ganaderia';
 import { Register } from './screens/Register';
+import { Perfil } from './screens/Perfil';
+import { PrivateRoute } from './PrivateRoute';
+import { AccesoSeguridad } from './screens/AccesoSeguridad';
 
 export const StartApp = () => {
     return (
@@ -42,6 +45,12 @@ export const StartApp = () => {
                     <Route path="planes_personas" element={<Planes_Personas />} />
                     <Route path="planes_mascotas" element={<Planes_Mascotas />} />
                     <Route path="planes_ganaderia" element={<Planes_Ganaderia />} />
+
+                    <Route element={<PrivateRoute />}>
+                        <Route path="/profile" element={<Perfil />} />
+                        <Route path='/acceso-y-seguridad' element={<AccesoSeguridad />} />
+                    </Route>
+
                     <Route path="*" element={<div>404</div>} />
                 </Routes>
             </Box>
