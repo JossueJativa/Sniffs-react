@@ -88,10 +88,10 @@ export const LeftProfile = () => {
                         <Button variant='text' startIcon={<SecurityIcon style={{ color: '#131738' }} />} href='/acceso-y-seguridad'>
                             <p>Acceso y seguridad</p>
                         </Button>
-                        <Button variant='text' startIcon={<PeopleIcon style={{ color: '#131738' }} />} href='/personas'>
+                        <Button variant='text' startIcon={<PeopleIcon style={{ color: '#131738' }} />} href='/mis-personas'>
                             <p>Personas</p>
                         </Button>
-                        <Button variant='text' startIcon={<DescriptionIcon style={{ color: '#131738' }} />} href='/facturacion'>
+                        <Button variant='text' startIcon={<DescriptionIcon style={{ color: '#131738' }} />} href='/mis-facturaciones'>
                             <p>Facturación</p>
                         </Button>
                         <Button variant='text' startIcon={<CheckCircleIcon style={{ color: '#131738' }} />} href='/mis-pedidos'>

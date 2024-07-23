@@ -132,7 +132,7 @@ export const Navbar = () => {
                         <ListItem button component={Link} to="/profile">
                             <ListItemText primary="Mi cuenta" />
                         </ListItem>
-                        <ListItem button component={Link} to="/acceso">
+                        <ListItem button component={Link} to="/acceso-y-seguridad">
                             <ListItemText primary="Acceso y seguridad" />
                         </ListItem>
                         <ListItem button component={Link} to="/mis-personas">
@@ -198,7 +198,7 @@ export const Navbar = () => {
                                             }}
                                         >
                                             <MenuItem component={Link} to="/profile" onClick={handleCloseProfile}>Mi cuenta</MenuItem>
-                                            <MenuItem component={Link} to="/acceso" onClick={handleCloseProfile}>Acceso y seguridad</MenuItem>
+                                            <MenuItem component={Link} to="/acceso-y-seguridad" onClick={handleCloseProfile}>Acceso y seguridad</MenuItem>
                                             <MenuItem component={Link} to="/mis-personas" onClick={handleCloseProfile}>Personas</MenuItem>
                                             <MenuItem component={Link} to="/mis-facturaciones" onClick={handleCloseProfile}>Facturas</MenuItem>
                                             <MenuItem component={Link} to="/mis-pedidos" onClick={handleCloseProfile}>Mis pedidos</MenuItem>

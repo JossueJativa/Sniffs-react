@@ -21,6 +21,8 @@ import { Register } from './screens/Register';
 import { Perfil } from './screens/Perfil';
 import { PrivateRoute } from './PrivateRoute';
 import { AccesoSeguridad } from './screens/AccesoSeguridad';
+import { MisPersonas } from './screens/MisPersonas';
+import { Facturacion } from './screens/Facturacion';
 
 export const StartApp = () => {
     return (
@@ -49,6 +51,8 @@ export const StartApp = () => {
                     <Route element={<PrivateRoute />}>
                         <Route path="/profile" element={<Perfil />} />
                         <Route path='/acceso-y-seguridad' element={<AccesoSeguridad />} />
+                        <Route path='/mis-personas' element={<MisPersonas />} />
+                        <Route path='/mis-facturaciones' element={<Facturacion />} />
                     </Route>
 
                     <Route path="*" element={<div>404</div>} />
