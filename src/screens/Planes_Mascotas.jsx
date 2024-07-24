@@ -3,9 +3,11 @@ import { planes_mascotas_banner } from "../assets";
 import { ImgText_Banner } from "../components/ImgText_Banner";
 import CheckIcon from '@mui/icons-material/Check';
 import { getProduct } from '../Controllers/productController';
+import { Button, Snackbar, Alert } from '@mui/material';
 
 export const Planes_Mascotas = () => {
     const [products, setProducts] = useState([]);
+    const [alert, setAlert] = useState({ open: false, message: '', severity: '' });
     const productIds = [9, 10]; // Define los IDs de los productos que deseas mostrar
 
     useEffect(() => {
@@ -25,6 +27,29 @@ export const Planes_Mascotas = () => {
 
     if (products.length === 0) {
         return <div>Loading...</div>;
+    }
+
+    const handleAddToCart = (product_id) => {
+        const fetchAddToCart = async () => {
+            try {
+                const response = await addProduct({ product_id, refresh: localStorage.getItem('refresh') });
+
+                if (response) {
+                    setAlert({ open: true, message: 'Producto añadido al carrito.', severity: 'success' });
+                    window.location.reload();
+                } else {
+                    setAlert({ open: true, message: 'Error al añadir el producto al carrito.', severity: 'error' });
+                }
+            } catch (error) {
+                console.error("Error adding product to cart:", error);
+                setAlert({ open: true, message: 'Error al añadir el producto al carrito.', severity: 'error' });
+            }
+        }
+        fetchAddToCart();
+    }
+
+    const handleCloseAlert = () => {
+        setAlert({ ...alert, open: false });
     }
 
     return (
@@ -58,9 +83,13 @@ export const Planes_Mascotas = () => {
 
                                     <br />
                                     <div className="container">
-                                        <a href="#" className="custom-btn">
+                                        <Button
+                                            variant="contained"
+                                            className='custom-btn'
+                                            onClick={() => handleAddToCart(product.id)}
+                                        >
                                             Añadir al carrito
-                                        </a>
+                                        </Button>
                                     </div>
 
                                     <br />
@@ -76,6 +105,12 @@ export const Planes_Mascotas = () => {
                     ))}
                 </div>
             </div>
+
+            <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleCloseAlert}>
+                <Alert onClose={handleCloseAlert} severity={alert.severity} sx={{ width: '100%' }}>
+                    {alert.message}
+                </Alert>
+            </Snackbar>
         </>
     );
 }

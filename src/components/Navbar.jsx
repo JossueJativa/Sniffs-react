@@ -1,15 +1,15 @@
-// src/components/Navbar.js
-
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from "@emotion/react";
-import { AppBar, Box, Container, Toolbar, MenuItem, Button, Menu, Divider, IconButton, Drawer, List, ListItem, ListItemText, Typography, CssBaseline } from "@mui/material";
+import { AppBar, Box, Container, Toolbar, MenuItem, Button, Menu, Divider, IconButton, Drawer, List, ListItem, ListItemText, Typography, CssBaseline, Badge } from "@mui/material";
 import { lightTheme } from "../themes/ThemesUI";
 import { logo } from "../assets";
 import { Link, useNavigate } from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MenuIcon from '@mui/icons-material/Menu';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { logout, getUser } from '../Controllers/userController';
 import { jwtDecode } from 'jwt-decode';
+import { getCartCuantity } from '../Controllers/cartController';
 
 export const Navbar = () => {
     const [anchorElProfile, setAnchorElProfile] = useState(null);
@@ -17,6 +17,7 @@ export const Navbar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+    const [cartCount, setCartCount] = useState(0); // State to store cart count
     const openProfile = Boolean(anchorElProfile);
     const openLogin = Boolean(anchorElLogin);
     const navigate = useNavigate();
@@ -29,8 +30,10 @@ export const Navbar = () => {
                 setLoggedIn(true);
                 const decoded = jwtDecode(token);
                 const user_id = decoded.user_id;
-                const userData = await getUser({user_id, refresh});
+                const userData = await getUser({ user_id, refresh });
                 setUser(userData);
+                const cart = await getCartCuantity({ refresh });
+                setCartCount(cart || 0);
             } else {
                 setLoggedIn(false);
             }
@@ -174,6 +177,13 @@ export const Navbar = () => {
                                 <MenuItem component={Link} to="/mascotas">Mascotas</MenuItem>
                                 <MenuItem component={Link} to="/ganaderia">Ganadería</MenuItem>
                                 <MenuItem component={Link} to="/planes">Planes</MenuItem>
+                                {loggedIn && (
+                                    <MenuItem component={Link} to="/carrito">
+                                        <Badge badgeContent={cartCount} color="secondary">
+                                            <ShoppingCartIcon />
+                                        </Badge>
+                                    </MenuItem>
+                                )}
                                 {loggedIn ? (
                                     <>
                                         <Button
@@ -260,4 +270,4 @@ export const Navbar = () => {
             </Box>
         </ThemeProvider>
     );
-}
+};

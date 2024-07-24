@@ -67,7 +67,7 @@ export const Register = () => {
                     {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                     <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
                         <TextField
-                            label="Nombre"
+                            label="Usuario"
                             variant="outlined"
                             fullWidth
                             value={name}
