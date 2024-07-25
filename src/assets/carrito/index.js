@@ -1,0 +1,1 @@
+export { default as bannerCart } from './3.banner-compras.png';

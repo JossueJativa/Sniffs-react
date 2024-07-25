@@ -3,6 +3,7 @@ import { planes_ganaderia_banner } from "../assets";
 import { ImgText_Banner } from "../components/ImgText_Banner";
 import CheckIcon from '@mui/icons-material/Check';
 import { getProduct } from '../Controllers/productController';
+import { addProduct } from '../Controllers/cartController';
 import { Button, Snackbar, Alert } from '@mui/material';
 
 export const Planes_Ganaderia = () => {

@@ -50,3 +50,7 @@ export {
     planes_autos_banner, planes_motos_banner, planes_personas_banner,
     planes_pesados_banner, planes_mascotas_banner, planes_ganaderia_banner
 } from './planes';
+
+export {
+    bannerCart
+} from './carrito';

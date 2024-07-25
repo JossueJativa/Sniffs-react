@@ -3,6 +3,7 @@ import { planes_mascotas_banner } from "../assets";
 import { ImgText_Banner } from "../components/ImgText_Banner";
 import CheckIcon from '@mui/icons-material/Check';
 import { getProduct } from '../Controllers/productController';
+import { addProduct } from '../Controllers/cartController';
 import { Button, Snackbar, Alert } from '@mui/material';
 
 export const Planes_Mascotas = () => {
@@ -36,7 +37,6 @@ export const Planes_Mascotas = () => {
 
                 if (response) {
                     setAlert({ open: true, message: 'Producto añadido al carrito.', severity: 'success' });
-                    window.location.reload();
                 } else {
                     setAlert({ open: true, message: 'Error al añadir el producto al carrito.', severity: 'error' });
                 }

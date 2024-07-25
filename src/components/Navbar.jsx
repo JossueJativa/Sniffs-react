@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { logout, getUser } from '../Controllers/userController';
 import { jwtDecode } from 'jwt-decode';
-import { getCartCuantity } from '../Controllers/cartController';
+import { getCartQuantity } from '../Controllers/cartController';
 
 export const Navbar = () => {
     const [anchorElProfile, setAnchorElProfile] = useState(null);
@@ -17,7 +17,7 @@ export const Navbar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
-    const [cartCount, setCartCount] = useState(0); // State to store cart count
+    const [cartCount, setCartCount] = useState(0);
     const openProfile = Boolean(anchorElProfile);
     const openLogin = Boolean(anchorElLogin);
     const navigate = useNavigate();
@@ -32,14 +32,21 @@ export const Navbar = () => {
                 const user_id = decoded.user_id;
                 const userData = await getUser({ user_id, refresh });
                 setUser(userData);
-                const cart = await getCartCuantity({ refresh });
-                setCartCount(cart || 0);
             } else {
                 setLoggedIn(false);
             }
         };
         fetchUserData();
     }, []);
+
+    useEffect(() => {
+        const fetchCartCount = async () => {
+            const count = await getCartQuantity({ refresh: localStorage.getItem('refresh') });
+            console.log(count);
+            setCartCount(count);
+        };
+        fetchCartCount();
+    }, [getCartQuantity]);
 
     const handleClickProfile = (event) => {
         setAnchorElProfile(event.currentTarget);
@@ -79,7 +86,7 @@ export const Navbar = () => {
             setLoggedIn(false);
             setUser(null);
             navigate('/login');
-            window.location.reload();
+            setAnchorElLogin(null);
         } else {
             console.error("Error al cerrar sesión");
         }

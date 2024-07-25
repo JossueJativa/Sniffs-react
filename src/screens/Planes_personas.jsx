@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { planes_personas_banner } from "../assets";
 import { ImgText_Banner } from "../components/ImgText_Banner";
 import CheckIcon from '@mui/icons-material/Check';
-import { getProduct, addProduct } from '../Controllers/productController';
+import { getProduct } from '../Controllers/productController';
+import { addProduct } from '../Controllers/cartController';
 import { Button, Snackbar, Alert } from '@mui/material';
 
 export const Planes_Personas = () => {

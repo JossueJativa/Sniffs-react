@@ -23,6 +23,7 @@ import { PrivateRoute } from './PrivateRoute';
 import { AccesoSeguridad } from './screens/AccesoSeguridad';
 import { MisPersonas } from './screens/MisPersonas';
 import { Facturacion } from './screens/Facturacion';
+import { Cart } from './screens/Cart';
 
 export const StartApp = () => {
     return (
@@ -53,6 +54,7 @@ export const StartApp = () => {
                         <Route path='/acceso-y-seguridad' element={<AccesoSeguridad />} />
                         <Route path='/mis-personas' element={<MisPersonas />} />
                         <Route path='/mis-facturaciones' element={<Facturacion />} />
+                        <Route path='/carrito' element={<Cart />} />
                     </Route>
 
                     <Route path="*" element={<div>404</div>} />
