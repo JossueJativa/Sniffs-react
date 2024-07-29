@@ -3,13 +3,15 @@ import { planes_autos_banner } from "../assets";
 import { ImgText_Banner } from "../components/ImgText_Banner";
 import CheckIcon from '@mui/icons-material/Check';
 import { getProduct } from '../Controllers/productController';
-import { addProduct } from '../Controllers/cartController';
 import { Button, Snackbar, Alert } from '@mui/material';
+import { addProductToCart } from '../Controllers/cartController';
+import { useCart } from '../Context/cartContext'; // Importa el hook del contexto
 
 export const Planes_Autos = () => {
     const [products, setProducts] = useState([]);
     const [alert, setAlert] = useState({ open: false, message: '', severity: '' });
-    const productIds = [1, 2]; // Define los IDs de los productos que deseas mostrar
+    const { setCartCount } = useCart(); // Usa el hook del contexto para actualizar el estado del carrito
+    const productIds = [1, 2];
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -33,14 +35,10 @@ export const Planes_Autos = () => {
     const handleAddToCart = (product_id) => {
         const fetchAddToCart = async () => {
             try {
-                const response = await addProduct({ product_id, refresh: localStorage.getItem('refresh') });
-
-                if (response) {
-                    setAlert({ open: true, message: 'Producto añadido al carrito.', severity: 'success' });
-                    window.location.reload();
-                } else {
-                    setAlert({ open: true, message: 'Error al añadir el producto al carrito.', severity: 'error' });
-                }
+                const response = await addProductToCart({ product_id, refresh: localStorage.getItem('refresh') });
+                console.log(response);
+                setAlert({ open: true, message: 'Producto añadido al carrito.', severity: 'success' });
+                setCartCount(prevCount => prevCount + 1);
             } catch (error) {
                 console.error("Error adding product to cart:", error);
                 setAlert({ open: true, message: 'Error al añadir el producto al carrito.', severity: 'error' });

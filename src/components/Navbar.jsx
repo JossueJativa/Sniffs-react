@@ -9,7 +9,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { logout, getUser } from '../Controllers/userController';
 import { jwtDecode } from 'jwt-decode';
-import { getCartQuantity } from '../Controllers/cartController';
+import { getCartNumber } from '../Controllers/cartController';
+import { useCart } from '../Context/cartContext'; // Asegúrate de la ruta correcta
 
 export const Navbar = () => {
     const [anchorElProfile, setAnchorElProfile] = useState(null);
@@ -17,15 +18,15 @@ export const Navbar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
-    const [cartCount, setCartCount] = useState(0);
+    const { cartCount, setCartCount } = useCart();
     const openProfile = Boolean(anchorElProfile);
     const openLogin = Boolean(anchorElLogin);
     const navigate = useNavigate();
 
     useEffect(() => {
+        const refresh = localStorage.getItem('refresh');
         const fetchUserData = async () => {
             const token = localStorage.getItem('token');
-            const refresh = localStorage.getItem('refresh');
             if (token && refresh) {
                 setLoggedIn(true);
                 const decoded = jwtDecode(token);
@@ -40,13 +41,16 @@ export const Navbar = () => {
     }, []);
 
     useEffect(() => {
-        const fetchCartCount = async () => {
-            const count = await getCartQuantity({ refresh: localStorage.getItem('refresh') });
-            console.log(count);
-            setCartCount(count);
-        };
-        fetchCartCount();
-    }, [getCartQuantity]);
+        const refresh = localStorage.getItem('refresh');
+        const fetchCartNumber = async () => {
+            const cartNumber = await getCartNumber({ refresh });
+            if (cartNumber > 0)
+                setCartCount(cartNumber);
+            else 
+                setCartCount(0);
+        }
+        fetchCartNumber();
+    }, [setCartCount]);
 
     const handleClickProfile = (event) => {
         setAnchorElProfile(event.currentTarget);

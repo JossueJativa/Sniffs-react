@@ -1,104 +1,63 @@
-import socket from './websocket';
-import { jwtDecode } from 'jwt-decode';
+import axios from "axios";
+import { cartAPI }  from './api';
+import { jwtDecode } from "jwt-decode";
 
-export const addProduct = ({ product_id, refresh }) => {
-    const decode = jwtDecode(refresh);
-    const user_id = decode.user_id;
-
-    return new Promise((resolve, reject) => {
-        socket.send(JSON.stringify({
-            action: 'add',
-            user: user_id,
-            product: product_id,
-            quantity: 1,
-            refresh
-        }));
-
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.action === 'add' && data.user === user_id) {
-                resolve(data);
-            }
+export const getCartNumber = async({ refresh }) => {
+    const { user_id } = jwtDecode(refresh);
+    try{
+        const response = await axios.get(
+            `${cartAPI}/getCartByUserId/?user_id=${user_id}&refresh=${refresh}`
+        );
+        const data = response.data;
+        
+        var quantity = 0;
+        for (let i = 0; i < data.length; i++) {
+            quantity += data[i].quantity;
         };
 
-        socket.onerror = (error) => {
-            reject(error);
-        };
-    });
+        return quantity;
+    } catch (error) {
+        return error;
+    }
 };
 
-
-export const getCartQuantity = ({ refresh }) => {
-    const decode = jwtDecode(refresh);
-    const user_id = decode.user_id;
-
-    return new Promise((resolve, reject) => {
-        socket.send(JSON.stringify({
-            action: 'getQuantity',
-            user: user_id,
-            refresh
-        }));
-
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.action === 'getQuantity' && data.user === user_id) {
-                let total = 0;
-                for (const item of data.cart) {
-                    total += item.quantity;
-                }
-                resolve(total);
+export const addProductToCart = async({ refresh, product_id }) => {
+    const { user_id } = jwtDecode(refresh);
+    try{
+        const response = await axios.post(
+            `${cartAPI}/?refresh=${refresh}`,
+            {
+                user: user_id,
+                product: product_id,
+                quantity: 1,
             }
-        };
+        );
 
-        socket.onerror = (error) => {
-            reject(error);
-        };
-    });
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
+export const getCart = async({ refresh }) => {
+    const { user_id } = jwtDecode(refresh);
+    try{
+        const response = await axios.get(
+            `${cartAPI}/getCartByUserId/?user_id=${user_id}&refresh=${refresh}`
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
 };
 
-
-export const getCart = ({ refresh }) => {
-    const decode = jwtDecode(refresh);
-    const user_id = decode.user_id;
-
-    return new Promise((resolve, reject) => {
-        socket.send(JSON.stringify({
-            action: 'getCart',
-            user: user_id,
-            refresh
-        }));
-
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.action === 'getCart' && data.user === user_id) {
-                resolve(data.cart);
-            }
-        };
-
-        socket.onerror = (error) => {
-            reject(error);
-        };
-    });
-};
-
-
-export const deleteCartItem = ({ refresh, cart_id }) => {
-    return new Promise((resolve, reject) => {
-        socket.send(JSON.stringify({
-            action: 'delete',
-            cart_id,
-            refresh
-        }));
-
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.action === 'delete' && data.cart_id === cart_id) {
-                resolve(data);
-            }
-        };
-
-        socket.onerror = (error) => {
-            reject(error);
-        };
-    });
-};
+export const deleteCartItem = async({ refresh, cart_id }) => {
+    try{
+        const response = await axios.delete(
+            `${cartAPI}/${cart_id}/?refresh=${refresh}`
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}

@@ -3,12 +3,14 @@ import { planes_pesados_banner } from "../assets";
 import { ImgText_Banner } from "../components/ImgText_Banner";
 import CheckIcon from '@mui/icons-material/Check';
 import { getProduct } from '../Controllers/productController';
-import { addProduct } from '../Controllers/cartController';
 import { Button, Snackbar, Alert } from '@mui/material';
+import { addProductToCart } from '../Controllers/cartController';
+import { useCart } from '../Context/cartContext';
 
 export const Planes_Camiones = () => {
     const [products, setProducts] = useState([]);
     const productIds = [5, 6];
+    const { setCartCount } = useCart(); // Usa el hook del contexto para actualizar el estado del carrito
     const [alert, setAlert] = useState({ open: false, message: '', severity: '' });
 
     useEffect(() => {
@@ -33,14 +35,10 @@ export const Planes_Camiones = () => {
     const handleAddToCart = (product_id) => {
         const fetchAddToCart = async () => {
             try {
-                const response = await addProduct({ product_id, refresh: localStorage.getItem('refresh') });
+                await addProductToCart({ product_id, refresh: localStorage.getItem('refresh') });
 
-                if (response) {
-                    setAlert({ open: true, message: 'Producto añadido al carrito.', severity: 'success' });
-                    window.location.reload();
-                } else {
-                    setAlert({ open: true, message: 'Error al añadir el producto al carrito.', severity: 'error' });
-                }
+                setAlert({ open: true, message: 'Producto añadido al carrito.', severity: 'success' });
+                setCartCount(prevCount => prevCount + 1);
             } catch (error) {
                 console.error("Error adding product to cart:", error);
                 setAlert({ open: true, message: 'Error al añadir el producto al carrito.', severity: 'error' });
