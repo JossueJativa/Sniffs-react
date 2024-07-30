@@ -1,6 +1,11 @@
 import React from 'react';
 import { Box, Button, Typography, styled } from '@mui/material';
 import { Add, Remove, Delete } from '@mui/icons-material';
+import {
+    autos_mensual, autos_sniffs, camiones_mensual, camiones_sniffs,
+    ganaderia_sniffs, ganaderia_mensual, mascotas_mensual, mascotas_sniffs,
+    motos_mensual, motos_sniffs, personas_mensual, personas_sniffs
+} from '../assets';
 
 // Define estilos usando Box
 const BoxCart = styled(Box)(({ theme }) => ({
@@ -69,29 +74,28 @@ const InputInfoCant = styled('input')(({ theme }) => ({
     },
 }));
 
-const IconTrash = styled(Button)(({ theme }) => ({
-    width: '0%',
-    height: '12% !important',
-    backgroundColor: 'white',
-    color: '#b6955f',
-    border: 'none',
-    fontSize: '0px',
-    display: 'flex',
-    justifyContent: 'flex-end',
-    paddingLeft: '100%',
-}));
-
 export const CartItem = ({ item, handleIncrease, handleDecrease, handleDelete }) => {
-    const id = item.id;
     const productImages = {
-        1: 'https://cdn-imgix.headout.com/microbrands-banner-image/image/26220a7c6aecf53b10f90006c1bad1e0-IMG_220916_0019_V2.jpg',
+        1: autos_mensual,
+        2: autos_sniffs,
+        3: motos_mensual,
+        4: motos_sniffs,
+        5: camiones_mensual,
+        6: camiones_sniffs,
+        7: personas_mensual,
+        8: personas_sniffs,
+        9: mascotas_mensual,
+        10: mascotas_sniffs,
+        11: ganaderia_mensual,
+        12: ganaderia_sniffs
     };
-    
+
+    const productImage = productImages[parseInt(item.product_id)] || '/images/default.jpg';
 
     return (
         <BoxCart>
             <GridItem>
-                <img src={productImages[id]} alt="carrito" style={{ maxWidth: '100%', height: 'auto' }} />
+                <img src={productImage} alt="carrito" style={{ maxWidth: '100%', height: 'auto' }} />
             </GridItem>
             <GridItem>
                 <div>
@@ -104,24 +108,24 @@ export const CartItem = ({ item, handleIncrease, handleDecrease, handleDelete })
                 </div>
             </GridItem>
             <GridItem>
-                <Typography variant="h6">${item.price}</Typography>
+                <Typography variant="h6">${(item.price).toFixed(2)}</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <ButtonStyled onClick={() => handleIncrease(id)}>
+                    <ButtonStyled onClick={() => handleIncrease(item.id, item.quantity)}>
                         <Add />
                     </ButtonStyled>
                     <InputInfoCant type="text" value={item.quantity} readOnly />
                     {item.quantity > 1 ? (
-                        <ButtonStyled onClick={() => handleDecrease(id)}>
+                        <ButtonStyled onClick={() => handleDecrease(item.id, item.quantity)}>
                             <Remove />
                         </ButtonStyled>
                     ) : (
-                        <ButtonStyled onClick={() => handleDelete(id)}>
+                        <ButtonStyled onClick={() => handleDelete(item.id)}>
                             <Delete />
                         </ButtonStyled>
                     )}
                 </Box>
-                <Typography variant="h6">${item.price * item.quantity}</Typography>
-                <ButtonStyled onClick={() => handleDelete(id)}>
+                <Typography variant="h6">${(item.price * item.quantity).toFixed(2)}</Typography>
+                <ButtonStyled onClick={() => handleDelete(item.id)}>
                     <Delete />
                 </ButtonStyled>
             </GridItem>

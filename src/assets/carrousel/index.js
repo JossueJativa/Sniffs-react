@@ -35,3 +35,5 @@ export { default as bannerGanaderia2 } from './ganaderia/g-02.svg';
 export { default as bannerGanaderia3 } from './ganaderia/g-03.svg';
 
 export { default as bannerPlanes } from './planes/banner-planes-01.png';
+
+export { default as banner_facturador } from './Facturador/4. banner-facturacion.png'

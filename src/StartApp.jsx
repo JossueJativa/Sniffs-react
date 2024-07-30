@@ -24,6 +24,7 @@ import { AccesoSeguridad } from './screens/AccesoSeguridad';
 import { MisPersonas } from './screens/MisPersonas';
 import { Facturacion } from './screens/Facturacion';
 import { Cart } from './screens/Cart';
+import { DatosFacturacion } from './screens/DatosFacturacion';
 
 export const StartApp = () => {
     return (
@@ -55,6 +56,7 @@ export const StartApp = () => {
                         <Route path='/mis-personas' element={<MisPersonas />} />
                         <Route path='/mis-facturaciones' element={<Facturacion />} />
                         <Route path='/carrito' element={<Cart />} />
+                        <Route path='/datos-facturacion' element={<DatosFacturacion />} />
                     </Route>
 
                     <Route path="*" element={<div>404</div>} />

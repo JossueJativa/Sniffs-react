@@ -1,1 +1,13 @@
 export { default as bannerCart } from './3.banner-compras.png';
+export { default as autos_mensual } from './icono-carros-mensual.svg';
+export { default as autos_sniffs } from './icono-carros-sniffs.svg';
+export { default as motos_mensual } from './icono-motos-mensual.svg';
+export { default as motos_sniffs } from './icono-motos-sniffs.svg';
+export { default as camiones_mensual } from './icono-camiones-mensual.svg';
+export { default as camiones_sniffs } from './icono-camiones-sniffs.svg';
+export { default as personas_mensual } from './icono-personas-mensual.svg';
+export { default as personas_sniffs } from './icono-personas-sniffs.svg';
+export { default as mascotas_mensual } from './icono-mascotas-mensual.svg';
+export { default as mascotas_sniffs } from './icono-mascotas-sniffs.svg';
+export { default as ganaderia_mensual } from './icono-ganaderia-mensual.svg';
+export { default as ganaderia_sniffs } from './icono-ganaderia-sniffs.svg';

@@ -61,3 +61,31 @@ export const deleteCartItem = async({ refresh, cart_id }) => {
         return error;
     }
 }
+
+export const increaseItemQuantity = async({ refresh, product_id, quantity }) => {
+    try{
+        const response = await axios.patch(
+            `${cartAPI}/${product_id}/?refresh=${refresh}`,
+            {
+                quantity: quantity + 1,
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
+export const decreaseItemQuantity = async({ refresh, product_id, quantity }) => {
+    try{
+        const response = await axios.patch(
+            `${cartAPI}/${product_id}/?refresh=${refresh}`,
+            {
+                quantity: quantity - 1,
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
