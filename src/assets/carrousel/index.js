@@ -36,4 +36,8 @@ export { default as bannerGanaderia3 } from './ganaderia/g-03.svg';
 
 export { default as bannerPlanes } from './planes/banner-planes-01.png';
 
-export { default as banner_facturador } from './Facturador/4. banner-facturacion.png'
+export { default as banner_facturador } from './Facturador/4. banner-facturacion.png';
+export { default as banner_formasPago } from './Facturador/5.banner-forma-pagos.png';
+export { default as banner_transferencias } from './Facturador/6. banner-transferencias.png';
+export { default as banner_payphone } from './Facturador/8. banner-payphone.png';
+export { default as banner_gpay } from './Facturador/banner-gpay.png';

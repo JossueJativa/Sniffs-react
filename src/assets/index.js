@@ -10,7 +10,8 @@ export {
     bannerPersonas, bannerPersonas1, bannerPersonas2, bannerPersonas3,
     bannerMascotas, bannerMascotas1, bannerMascotas2, bannerMascotas3,
     bannerGanaderia, bannerGanaderia1, bannerGanaderia2, bannerGanaderia3,
-    bannerPlanes, banner_facturador
+    bannerPlanes, banner_facturador, banner_formasPago, banner_transferencias,
+    banner_payphone, banner_gpay
 } from './carrousel';
 export {
     icon1, icon2, icon3, icon4, icon5,
@@ -56,3 +57,9 @@ export {
     camiones_mensual, camiones_sniffs, ganaderia_mensual, ganaderia_sniffs,
     mascotas_mensual, mascotas_sniffs, personas_mensual, personas_sniffs
 } from './carrito';
+
+export {
+    btn_datafas, btn_transferencia, btn_deuna, btn_gpay,
+    btn_payphone, btn_efectivo, bc_pichincha, bc_produbanco,
+    img_deuna, img_payphone, img_mujer
+} from './Facturador';

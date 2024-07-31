@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography, Paper, styled, FormControlLabel, Checkbox } from '@mui/material';
 import { banner_facturador } from "../assets";
 import { ImgText_Banner } from "../components/ImgText_Banner";
 import { SummaryTable } from '../components/Table';
+import { createBill } from '../Controllers/facturadorController';
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -48,6 +49,7 @@ const ContinueButton = styled(Button)(({ theme }) => ({
 
 export const DatosFacturacion = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const { cartItems } = location.state;
 
     const [formValues, setFormValues] = useState({
@@ -110,12 +112,25 @@ export const DatosFacturacion = () => {
         return isValid;
     };
 
-    // Handle form submit
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            // Form is valid, proceed with the submission
-            console.log('Form Submitted', formValues);
+            const bill = {
+                name: formValues.nombres,
+                address: formValues.direccion,
+                email: formValues.email,
+                phone: formValues.telefono,
+            }
+
+            const refresh = localStorage.getItem('refresh');
+
+            const callAPI = async () => {
+                const response = await createBill({ refresh, bill });
+                localStorage.setItem('bill', response);
+            }
+
+            callAPI();
+            navigate('/formas-pago');
         }
     };
 
