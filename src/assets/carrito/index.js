@@ -11,3 +11,4 @@ export { default as mascotas_mensual } from './icono-mascotas-mensual.svg';
 export { default as mascotas_sniffs } from './icono-mascotas-sniffs.svg';
 export { default as ganaderia_mensual } from './icono-ganaderia-mensual.svg';
 export { default as ganaderia_sniffs } from './icono-ganaderia-sniffs.svg';
+export { default as qr_deuna } from './Deuna-qr-crys.png';

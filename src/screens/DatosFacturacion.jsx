@@ -120,17 +120,19 @@ export const DatosFacturacion = () => {
                 address: formValues.direccion,
                 email: formValues.email,
                 phone: formValues.telefono,
-            }
+            };
 
             const refresh = localStorage.getItem('refresh');
 
             const callAPI = async () => {
                 const response = await createBill({ refresh, bill });
                 localStorage.setItem('bill', response);
-            }
+            };
 
             callAPI();
-            navigate('/formas-pago');
+
+            const total = cartItems.reduce((acc, item) => acc + item.price, 0);
+            navigate('/formas-pago', { state: { total, cartItems } });
         }
     };
 

@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { Grid, Typography, Button, Dialog, DialogContent, DialogActions } from "@mui/material";
 import { ImgText_Banner } from "../components/ImgText_Banner";
 import { banner_formasPago, btn_deuna, btn_efectivo, btn_gpay, btn_payphone, btn_transferencia, img_mujer } from "../assets";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export const FormasPago = ({ total }) => {
+export const FormasPago = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { total } = location.state || {};
+
     const [openTransferencia, setOpenTransferencia] = useState(false);
     const [openEfectivo, setOpenEfectivo] = useState(false);
 
@@ -21,6 +26,14 @@ export const FormasPago = ({ total }) => {
 
     const handleCloseEfectivo = () => {
         setOpenEfectivo(false);
+    };
+
+    const handleDeUna = () => {
+        navigate('/de-una', { state: { total } });
+    };
+
+    const handleTransferencia = () => {
+        navigate('/transferencias', { state: { total } });
     };
 
     return (
@@ -45,14 +58,17 @@ export const FormasPago = ({ total }) => {
                         <img src={btn_efectivo} alt="Efectivo" style={{ width: "300px" }} />
                     </Button>
                 </Grid>
-                <Grid item xs={4} />
             </Grid>
 
             {/* Modal para Transferencia */}
             <Dialog open={openTransferencia} onClose={handleCloseTransferencia} maxWidth="md" fullWidth>
                 <DialogContent>
-                    <img src={btn_deuna} alt="Modal Transferencia 1"  style={{ width: "400px" }}/>
-                    <img src={btn_transferencia} alt="Modal Transferencia 2"  style={{ width: "400px" }}/>
+                    <Button onClick={handleDeUna} style={{ padding: 0, border: 'none', background: 'none' }}>
+                        <img src={btn_deuna} alt="De Una" style={{ width: "400px" }} />
+                    </Button>
+                    <Button onClick={handleTransferencia} style={{ padding: 0, border: 'none', background: 'none' }}>
+                        <img src={btn_transferencia} alt="Modal Transferencia 2" style={{ width: "400px" }} />
+                    </Button>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseTransferencia} color="primary">Cerrar</Button>
@@ -62,8 +78,8 @@ export const FormasPago = ({ total }) => {
             {/* Modal para Efectivo */}
             <Dialog open={openEfectivo} onClose={handleCloseEfectivo} maxWidth="md" fullWidth>
                 <DialogContent>
-                    <img src={btn_payphone} alt="Modal Efectivo 1"  style={{ width: "400px" }}/>
-                    <img src={btn_gpay} alt="Modal Efectivo 2"  style={{ width: "400px" }}/>
+                    <img src={btn_payphone} alt="Modal Efectivo 1" style={{ width: "400px" }} />
+                    <img src={btn_gpay} alt="Modal Efectivo 2" style={{ width: "400px" }} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseEfectivo} color="primary">Cerrar</Button>
@@ -71,4 +87,4 @@ export const FormasPago = ({ total }) => {
             </Dialog>
         </>
     );
-}
+};

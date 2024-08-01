@@ -26,6 +26,8 @@ import { Facturacion } from './screens/Facturacion';
 import { Cart } from './screens/Cart';
 import { DatosFacturacion } from './screens/DatosFacturacion';
 import { FormasPago } from './screens/FormasPago';
+import { DeUna } from './screens/DeUna';
+import { Transferencias } from './screens/Transferencias';
 
 export const StartApp = () => {
     return (
@@ -59,6 +61,8 @@ export const StartApp = () => {
                         <Route path='/carrito' element={<Cart />} />
                         <Route path='/datos-facturacion' element={<DatosFacturacion />} />
                         <Route path='/formas-pago' element={<FormasPago />} />
+                        <Route path='/de-una' element={<DeUna />} />
+                        <Route path='/transferencias' element={<Transferencias />} />
                     </Route>
 
                     <Route path="*" element={<div>404</div>} />

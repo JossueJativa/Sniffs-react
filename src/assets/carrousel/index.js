@@ -41,3 +41,4 @@ export { default as banner_formasPago } from './Facturador/5.banner-forma-pagos.
 export { default as banner_transferencias } from './Facturador/6. banner-transferencias.png';
 export { default as banner_payphone } from './Facturador/8. banner-payphone.png';
 export { default as banner_gpay } from './Facturador/banner-gpay.png';
+export { default as banner_deuna } from './Facturador/7. banner-deuna.png';
