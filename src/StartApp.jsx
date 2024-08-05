@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Home } from './screens/Home';
 import { Navbar, Footer, WhatsAppFloatingButton, SocialFloating } from './components';
@@ -28,6 +27,8 @@ import { DatosFacturacion } from './screens/DatosFacturacion';
 import { FormasPago } from './screens/FormasPago';
 import { DeUna } from './screens/DeUna';
 import { Transferencias } from './screens/Transferencias';
+import { Payphone } from './screens/Payphone';
+import { Gpay } from './screens/Gpay';
 
 export const StartApp = () => {
     return (
@@ -63,6 +64,8 @@ export const StartApp = () => {
                         <Route path='/formas-pago' element={<FormasPago />} />
                         <Route path='/de-una' element={<DeUna />} />
                         <Route path='/transferencias' element={<Transferencias />} />
+                        <Route path='/payphone' element={<Payphone />} />
+                        <Route path='/gpay' element={<Gpay />} />
                     </Route>
 
                     <Route path="*" element={<div>404</div>} />

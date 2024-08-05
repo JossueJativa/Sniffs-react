@@ -8,5 +8,5 @@ export { default as btn_efectivo } from './icono-pago-efectivo.svg';
 export { default as bc_pichincha } from './9. Iconos-carrito_bpichinhca.svg';
 export { default as bc_produbanco } from './10. Iconos-carrito_bprodubanco.svg';
 export { default as img_deuna } from './12. Iconos-carrito_duna-pichincha.svg';
-export { default as img_payphone } from './14. Iconos-carrito_mujer.svg';
+export { default as img_payphone } from './13. Iconos-carrito_payphone-07.svg';
 export { default as img_mujer } from './14. Iconos-carrito_mujer.svg';
