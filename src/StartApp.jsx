@@ -30,6 +30,7 @@ import { Transferencias } from './screens/Transferencias';
 import { Payphone } from './screens/Payphone';
 import { Gpay } from './screens/Gpay';
 import { MisPedidos } from './screens/MisPedidos';
+import { HistorialCompras } from './screens/HistorialCompras';
 
 export const StartApp = () => {
     return (
@@ -61,6 +62,7 @@ export const StartApp = () => {
                         <Route path='/mis-personas' element={<MisPersonas />} />
                         <Route path='/mis-facturaciones' element={<Facturacion />} />
                         <Route path='/mis-pedidos' element={<MisPedidos />} />
+                        <Route path='/historial' element={<HistorialCompras />} />
                         <Route path='/carrito' element={<Cart />} />
                         <Route path='/datos-facturacion' element={<DatosFacturacion />} />
                         <Route path='/formas-pago' element={<FormasPago />} />

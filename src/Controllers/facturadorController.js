@@ -1,4 +1,4 @@
-import { billAPI } from "./api";
+import { billAPI, billDetailAPI } from "./api";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
@@ -31,6 +31,22 @@ export const getBillDetails = async ({ refresh, bill_id }) => {
     try {
         const request = await axios.get(
             `${billAPI}/${bill_id}/?refresh=${refresh}`
+        );
+
+        const data = request.data;
+        return data;
+    } catch (error) {
+        console.error(error);
+        return { error: true };
+    }
+}
+
+export const userHistory = async({refresh}) => {
+    const decode = jwtDecode(refresh);
+    const user_id = decode.user_id;
+    try {
+        const request = await axios.get(
+            `${billDetailAPI}/?user_id=${user_id}&refresh=${refresh}`
         );
 
         const data = request.data;
