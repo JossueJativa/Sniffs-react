@@ -26,3 +26,17 @@ export const createBill = async ({ refresh, bill }) => {
         return { error: true };
     }
 };
+
+export const getBillDetails = async ({ refresh, bill_id }) => {
+    try {
+        const request = await axios.get(
+            `${billAPI}/${bill_id}/?refresh=${refresh}`
+        );
+
+        const data = request.data;
+        return data;
+    } catch (error) {
+        console.error(error);
+        return { error: true };
+    }
+}

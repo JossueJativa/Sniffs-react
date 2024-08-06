@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography, Paper, styled, FormControlLabel, Checkbox } from '@mui/material';
 import { banner_facturador } from "../assets";
 import { ImgText_Banner } from "../components/ImgText_Banner";
 import { SummaryTable } from '../components/Table';
-import { createBill } from '../Controllers/facturadorController';
+import { createBill, getBillDetails } from '../Controllers/facturadorController';
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -70,6 +70,25 @@ export const DatosFacturacion = () => {
         acceptTerms: '',
     });
 
+    useEffect(() => {
+        const bill_id = localStorage.getItem('bill_id');
+        if (bill_id) {
+            const fetchBillDetails = async () => {
+                const refresh = localStorage.getItem('refresh');
+                const response = await getBillDetails({ refresh, bill_id });
+                setFormValues({
+                    nombres: response.name,
+                    cedula: response.identity ?? '',
+                    direccion: response.address,
+                    email: response.email,
+                    telefono: response.phone,
+                    acceptTerms: true,
+                });
+            };
+            fetchBillDetails();
+        }
+    }, []);
+
     const handleChange = (e) => {
         const { name, value, checked } = e.target;
         setFormValues({
@@ -126,7 +145,7 @@ export const DatosFacturacion = () => {
 
             const callAPI = async () => {
                 const response = await createBill({ refresh, bill });
-                localStorage.setItem('bill', response);
+                localStorage.setItem('bill_id', response.id);
             };
 
             callAPI();
