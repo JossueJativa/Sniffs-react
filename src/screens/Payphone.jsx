@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ImgText_Banner } from '../components/ImgText_Banner';
 import { Box, Grid, Typography, Button, TextField, Container } from "@mui/material";
 import { banner_payphone, img_payphone } from '../assets';
@@ -8,14 +8,6 @@ import { PaymentForm } from '../components/PaymentForm';
 export const Payphone = () => {
     const location = useLocation();
     const { total, subtotal, iva } = location.state || {};
-
-    const [formData, setFormData] = useState({
-        fullName: '',
-        phone: '',
-        idNumber: '',
-        email: '',
-        file: null,
-    });
 
     useEffect(() => {
         const initializePayphoneButton = () => {
@@ -64,10 +56,6 @@ export const Payphone = () => {
         }
     }, []);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    };
-
     return (
         <>
             <ImgText_Banner bannerImg={banner_payphone} text='Paga con ' underline_text='payphone' />
@@ -112,7 +100,7 @@ export const Payphone = () => {
                     </Grid>
                 </Box>
 
-                <PaymentForm total={total} onSubmit={handleSubmit} />
+                <PaymentForm total={total} />
             </Container>
         </>
     );

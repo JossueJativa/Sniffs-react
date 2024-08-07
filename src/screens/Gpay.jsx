@@ -9,11 +9,6 @@ export const Gpay = () => {
     const location = useLocation();
     const { total } = location.state || {};
 
-    const handleFormSubmit = (formData) => {
-        // Handle form submission here
-        console.log('Form submitted', formData);
-    };
-
     return (
         <>
             <ImgText_Banner bannerImg={banner_gpay} text="Paga con " underline_text="Gpay" />
@@ -52,7 +47,7 @@ export const Gpay = () => {
                     </Grid>
                 </Box>
 
-                <PaymentForm total={total} onSubmit={handleFormSubmit} />
+                <PaymentForm total={total} />
             </Paper>
         </>
     );

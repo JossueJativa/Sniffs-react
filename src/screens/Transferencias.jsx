@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ImgText_Banner } from '../components/ImgText_Banner';
 import { banner_transferencias, bc_pichincha, bc_produbanco } from '../assets';
@@ -8,18 +7,6 @@ import { PaymentForm } from '../components/PaymentForm';
 export const Transferencias = () => {
     const location = useLocation();
     const { total } = location.state || {};
-
-    const [formData, setFormData] = useState({
-        fullName: '',
-        phone: '',
-        idNumber: '',
-        email: '',
-        file: null
-    });
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-    };
 
     const banks = [
         {
@@ -64,7 +51,7 @@ export const Transferencias = () => {
                     </Grid>
                 </Box>
 
-                <PaymentForm total={total} onSubmit={handleSubmit} />
+                <PaymentForm total={total} />
             </Paper>
         </>
     );

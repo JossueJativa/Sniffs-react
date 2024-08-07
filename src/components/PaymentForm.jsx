@@ -1,8 +1,9 @@
-// PaymentForm.js
 import React, { useState } from 'react';
 import { Grid, TextField, Button, Typography, Box } from '@mui/material';
+import { createBillDetail } from '../Controllers/facturadorController';
+import { useCart } from '../Context/cartContext';
 
-export const PaymentForm = ({ total, onSubmit }) => {
+export const PaymentForm = ({ total }) => {
     const [formData, setFormData] = useState({
         fullName: '',
         phone: '',
@@ -10,6 +11,8 @@ export const PaymentForm = ({ total, onSubmit }) => {
         email: '',
         file: null,
     });
+
+    const { setCartCount } = useCart();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -26,9 +29,27 @@ export const PaymentForm = ({ total, onSubmit }) => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (onSubmit) onSubmit(formData);
+
+        const refresh = localStorage.getItem('refresh');
+        const bill_id = localStorage.getItem('bill_id');
+
+        try {
+            // Llama a la función para crear el detalle de la factura
+            const data = await createBillDetail({ refresh, bill_id });
+
+            if (data.error) {
+                alert('Hubo un error al enviar el formulario');
+                return;
+            }
+
+            alert('Comprobante enviado exitosamente');
+            setCartCount(0);
+        } catch (error) {
+            console.error('Error al enviar el formulario:', error);
+            alert('Hubo un error al enviar el formulario');
+        }
     };
 
     return (

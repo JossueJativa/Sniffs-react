@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { img_deuna, qr_deuna, banner_deuna } from '../assets';
 import { ImgText_Banner } from '../components/ImgText_Banner';
 import { Box, Typography, Grid, Paper, TextField, Button } from '@mui/material';
@@ -8,19 +7,6 @@ import { PaymentForm } from '../components/PaymentForm';
 export const DeUna = () => {
     const location = useLocation();
     const { total } = location.state || {};
-
-    const [formData, setFormData] = useState({
-        fullName: '',
-        phone: '',
-        idNumber: '',
-        email: '',
-        file: null,
-    });
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Aquí puedes manejar la lógica de envío del formulario
-    };
 
     return (
         <>
@@ -61,7 +47,7 @@ export const DeUna = () => {
                     </Grid>
                 </Box>
 
-                <PaymentForm total={total} onSubmit={handleSubmit} />
+                <PaymentForm total={total} />
             </Paper>
         </>
     );

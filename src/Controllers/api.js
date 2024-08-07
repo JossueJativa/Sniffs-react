@@ -5,3 +5,4 @@ export const productAPI = `${dominio}/product`;
 export const cartAPI = `${dominio}/cart`;
 export const billAPI = `${dominio}/bill/header`;
 export const billDetailAPI = `${dominio}/bill/detail`;
+export const contractAPI = `${dominio}/contract`;
