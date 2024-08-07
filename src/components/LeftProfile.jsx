@@ -97,7 +97,7 @@ export const LeftProfile = () => {
                         <Button variant='text' startIcon={<CheckCircleIcon style={{ color: '#131738' }} />} href='/mis-pedidos'>
                             <p>Mis pedidos</p>
                         </Button>
-                        <Button variant='text' startIcon={<ShoppingCartIcon style={{ color: '#131738' }} />} href='/historial-compras'>
+                        <Button variant='text' startIcon={<ShoppingCartIcon style={{ color: '#131738' }} />} href='/historial'>
                             <p>Historial compras</p>
                         </Button>
                         <Button variant='text' startIcon={<PowerSettingsNewIcon style={{ color: '#131738' }} />} onClick={handleLogout}>

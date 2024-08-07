@@ -29,3 +29,19 @@ export const createContract = async ({ refresh, product_id, user_id }) => {
         return { error: true };
     }
 }
+
+export const getContract = async ({ refresh }) => {
+    const decode = jwtDecode(refresh);
+    const user_id = decode.user_id;
+
+    try {
+        const request = await axios.get(
+            `${contractAPI}/?user_id=${user_id}&refresh=${refresh}`
+        );
+
+        const data = request.data;
+        return data;
+    } catch {
+        return { error: true };
+    }
+}

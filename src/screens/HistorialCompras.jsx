@@ -3,11 +3,13 @@ import { TextField, MenuItem, Table, TableBody, TableCell, TableContainer, Table
 import SearchIcon from '@mui/icons-material/Search';
 import { LeftProfile } from "../components/LeftProfile";
 import { userHistory } from '../Controllers/facturadorController';
+import { getContract } from '../Controllers/contractController';
 
 const localStorage = window.localStorage;
 
 export const HistorialCompras = () => {
     const [history, setHistory] = useState([]);
+    const [contracts, setContracts] = useState([]);
     const [search, setSearch] = useState('');
     const [filterDate, setFilterDate] = useState('Todo');
 
@@ -16,7 +18,6 @@ export const HistorialCompras = () => {
             const refresh = localStorage.getItem('refresh');
             try {
                 const data = await userHistory({ refresh });
-                // Verifica que data sea un array
                 if (Array.isArray(data)) {
                     setHistory(data);
                 } else {
@@ -27,7 +28,22 @@ export const HistorialCompras = () => {
             }
         };
 
+        const fetchContracts = async () => {
+            const refresh = localStorage.getItem('refresh');
+            try {
+                const contractData = await getContract({ refresh });
+                if (Array.isArray(contractData)) {
+                    setContracts(contractData);
+                } else {
+                    console.error("Expected an array from getContract, but got:", contractData);
+                }
+            } catch (error) {
+                console.error("Error fetching contracts:", error);
+            }
+        };
+
         fetchHistory();
+        fetchContracts();
     }, []);
 
     const handleSearchChange = (event) => {
@@ -43,6 +59,17 @@ export const HistorialCompras = () => {
             product.product.toLowerCase().includes(search.toLowerCase())
         );
     });
+
+    const getContractInfo = (bill) => {
+        const contract = contracts.find(contract => 
+            bill.products.some(product => product.id === contract.product)
+        );
+        return contract ? (
+            <div>
+                Descripción: {contract.description}, Fecha Inicio: {contract.date_start}, Fecha Fin: {contract.date_end}, Estado: {contract.status ? 'Activo' : 'Inactivo'}, Total: {contract.total}
+            </div>
+        ) : 'Sin contrato';
+    };
 
     return (
         <div className="grid-profile">
@@ -86,20 +113,18 @@ export const HistorialCompras = () => {
                                 <TableCell>Descripción</TableCell>
                                 <TableCell>Estado</TableCell>
                                 <TableCell>Total</TableCell>
+                                <TableCell>Contrato</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {filteredHistory.map((bill, index) => (
                                 <TableRow key={index}>
-                                    <TableCell>{/* Fecha aquí si está disponible */}</TableCell>
-                                    <TableCell>{/* Factura aquí si está disponible */}</TableCell>
-                                    <TableCell>
-                                        {bill.products.map((product, idx) => (
-                                            <div key={idx}>{product.product} x {product.quantity}</div>
-                                        ))}
-                                    </TableCell>
-                                    <TableCell>{/* Estado aquí si está disponible */}</TableCell>
+                                    <TableCell>{bill.start_date}</TableCell>
+                                    <TableCell>{bill.id}</TableCell>
+                                    <TableCell>{bill.description}</TableCell>
+                                    <TableCell>{bill.status}</TableCell>
                                     <TableCell>{bill.total}</TableCell>
+                                    <TableCell>{getContractInfo(bill)}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
