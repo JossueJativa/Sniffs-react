@@ -124,7 +124,12 @@ export const Cart = () => {
             
             <Container>
                 {cartItems.length === 0 ? (
-                    <Typography variant="body1">Tu carrito está vacío</Typography>
+                    <ContinueButton
+                        variant='contained'
+                        href='/cotizar'
+                    >
+                        ¿Quieres cotizar un plan?
+                    </ContinueButton>
                 ) : (
                     <div>
                         {cartItems.map((item) => (
