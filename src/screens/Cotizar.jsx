@@ -38,7 +38,7 @@ export const Cotizar = () => {
     const [quantities, setQuantities] = useState({});
     const [months, setMonths] = useState({});
     const [totals, setTotals] = useState({ subtotal: 0, iva: 0, total: 0 });
-    const [code, setCode] = useState(uuidv4()); // Genera un código único al inicializar
+    const [code, setCode] = useState(uuidv4());
     const [name, setName] = useState('');
     const [user, setUser] = useState('');
     const productIds = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -120,8 +120,6 @@ export const Cotizar = () => {
         for (let i = 0; i < quotationDetails.length; i++) {
             setQuotationDetail({ refresh: localStorage.getItem('refresh'), data: quotationDetails[i] });
         }
-
-        // Aquí puedes enviar los datos a la API
     };
 
     const rows = [
