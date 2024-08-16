@@ -4,9 +4,11 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { getProduct } from '../Controllers/productController';
 import { styled } from "@mui/material";
-import { v4 as uuidv4 } from 'uuid';
 import { jwtDecode } from 'jwt-decode';
-import { setQuotationDetail, setQuotationHeader } from '../Controllers/quotationController';
+import { getLengthQuotation, setQuotationDetail, setQuotationHeader } from '../Controllers/quotationController';
+import { useNavigate } from 'react-router-dom';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 // Styled component for TableContainer
 const TableContainerStyled = styled(TableContainer)(({ theme }) => ({
@@ -38,29 +40,88 @@ export const Cotizar = () => {
     const [quantities, setQuantities] = useState({});
     const [months, setMonths] = useState({});
     const [totals, setTotals] = useState({ subtotal: 0, iva: 0, total: 0 });
-    const [code, setCode] = useState(uuidv4());
+    const [code, setCode] = useState('');
     const [name, setName] = useState('');
     const [user, setUser] = useState('');
     const productIds = Array.from({ length: 12 }, (_, i) => i + 1);
+    const navigate = useNavigate();
+
+    const generatePDF = async () => {
+        const doc = new jsPDF('p', 'pt', 'a4');
+        
+        try {
+            // Crea el encabezado
+            doc.setFontSize(18);
+            doc.text('Cotización', 40, 40);
+            doc.setFontSize(12);
+            doc.text(`Código: ${code}`, 40, 70);
+            doc.text(`Nombre: ${name}`, 40, 90);
+            doc.text(`Usuario: ${user}`, 40, 110);
+            doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 40, 130);
+    
+            // Crea el encabezado de la tabla
+            const tableColumn = ["Nombre del Producto", "Precio Mensual", "Instalación", "Cantidad", "Meses", "Total Producto"];
+            const tableRows = [];
+    
+            products.forEach((product) => {
+                const productData = [
+                    product.name,
+                    `$${product.mensual_sales}`,
+                    `$${product.installation}`,
+                    quantities[product.id] || 0,
+                    months[product.id] || 0,
+                    `$${calculateProductTotal(quantities[product.id] || 0, months[product.id] || 0, product).toFixed(2)}`
+                ];
+                tableRows.push(productData);
+            });
+    
+            doc.autoTable({
+                head: [tableColumn],
+                body: tableRows,
+                startY: 150,
+            });
+    
+            // Resumen
+            const summaryRows = rows.map(row => [row.name, row.value]);
+    
+            doc.autoTable({
+                head: [["Descripción", "Valor"]],
+                body: summaryRows,
+                startY: doc.previousAutoTable.finalY + 20,
+            });
+    
+            // Guarda el PDF
+            doc.save(`cotizacion_${code}.pdf`);
+            console.log("PDF generado y descargado");
+        } catch (error) {
+            console.error("Error al generar el PDF:", error);
+        }
+    };
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchProductsAndQuotation = async () => {
             try {
+                // Fetch Products
                 const productsData = await Promise.all(
                     productIds.map(async (id) => await getProduct({ product_id: id }))
                 );
                 setProducts(productsData.filter(product => product !== null));
+    
+                // Fetch Quotation Length
+                const refresh = localStorage.getItem('refresh');
+                const response = await getLengthQuotation({ refresh });
+                setCode(response > 0 ? response + 1 : 1);
+    
+                // Decode User ID
+                const user_id = jwtDecode(refresh).user_id;
+                setUser(user_id);
             } catch (error) {
-                console.error("Error fetching product data:", error);
+                console.error("Error fetching data:", error);
             }
         };
-
-        const refresh = localStorage.getItem('refresh');
-        const user_id = jwtDecode(refresh).user_id;
-        setUser(user_id);
-
-        fetchProducts();
-    }, []);
+    
+        fetchProductsAndQuotation();
+    }, []);    
 
     const handleQuantityChange = (id, value) => {
         const updatedQuantities = { ...quantities, [id]: Math.max(0, value) };
@@ -98,15 +159,15 @@ export const Cotizar = () => {
         setAlert({ ...alert, open: false });
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const quotationHeader = {
             code,
             name,
             user: parseInt(user, 10),
         };
-
-        const quotationHeader_id = setQuotationHeader({ refresh: localStorage.getItem('refresh'), data: quotationHeader });
-
+    
+        const quotationHeader_id = await setQuotationHeader({ refresh: localStorage.getItem('refresh'), data: quotationHeader });
+    
         const quotationDetails = products
             .filter(product => quantities[product.id] > 0)
             .map(product => ({
@@ -116,12 +177,17 @@ export const Cotizar = () => {
                 quotation_header: quotationHeader_id,
                 product: product.id,
             }));
-
+    
         for (let i = 0; i < quotationDetails.length; i++) {
-            setQuotationDetail({ refresh: localStorage.getItem('refresh'), data: quotationDetails[i] });
+            await setQuotationDetail({ refresh: localStorage.getItem('refresh'), data: quotationDetails[i] });
         }
+    
+        setAlert({ open: true, message: 'Cotización realizada con éxito', severity: 'success' });
+    
+        await generatePDF();
+    
+        navigate('/carrito');
     };
-
     const rows = [
         createData('Subtotal', `$${totals.subtotal.toFixed(2)}`),
         createData('IVA (12%)', `$${totals.iva.toFixed(2)}`),
