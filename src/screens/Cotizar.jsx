@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Button, Snackbar, Alert, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, IconButton } from '@mui/material';
+import { Container, Typography, Button, Snackbar, Alert, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, IconButton, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { getProduct } from '../Controllers/productController';
@@ -41,25 +41,73 @@ export const Cotizar = () => {
     const [months, setMonths] = useState({});
     const [totals, setTotals] = useState({ subtotal: 0, iva: 0, total: 0 });
     const [code, setCode] = useState('');
-    const [name, setName] = useState('');
+    const [searchQuotation, setSearchQuotation] = useState('');
+    const [clientData, setClientData] = useState({
+        name: '',
+        phone: '',
+        validationDays: 0,
+        attention: '',
+        RUC: '',
+        seller: '',
+        address: 'Quito',
+        date: new Date().toLocaleDateString(),
+    });
     const [user, setUser] = useState('');
     const productIds = Array.from({ length: 12 }, (_, i) => i + 1);
     const navigate = useNavigate();
 
     const generatePDF = async () => {
         const doc = new jsPDF('p', 'pt', 'a4');
-        
-        try {
-            // Crea el encabezado
-            doc.setFontSize(18);
-            doc.text('Cotización', 40, 40);
-            doc.setFontSize(12);
-            doc.text(`Código: ${code}`, 40, 70);
-            doc.text(`Nombre: ${name}`, 40, 90);
-            doc.text(`Usuario: ${user}`, 40, 110);
-            doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 40, 130);
     
-            // Crea el encabezado de la tabla
+        try {
+            // Create the header with the quotation details in a table format
+            const headerData = [
+                ["COTIZACION No.", code, "Crystian Muñoz"],
+                ["ESTADO:", "", ""],
+                ["", "", ""],  // Empty row to create space
+                ['RUC: 1715838692001 - ', 'Japón N37-214 y Pasaje Mónaco - ', 'Tel(f): (+593) 996761198']
+            ];
+    
+            doc.autoTable({
+                body: headerData,
+                startY: 40,
+                theme: 'plain',
+                styles: { fontSize: 10, cellPadding: 2, minCellHeight: 12 },
+                columnStyles: {
+                    0: { cellWidth: 150 },
+                    1: { cellWidth: 100 },
+                    2: { cellWidth: 240 }
+                },
+                headStyles: { fillColor: [221, 221, 221] }, 
+            });
+    
+            // Reset font size for client details
+            doc.setFontSize(10);
+    
+            // Client details - Include all clientData fields
+            const clientDetails = [
+                ["CLIENTE:", clientData.name, "TELEFONO:", clientData.phone],
+                ["RUC:", clientData.RUC, "DIRECCION:", clientData.address],
+                ["ATENCION:", clientData.attention, "VENDEDOR:", clientData.seller],
+                // Fila separadora
+                [{ content: " ", colSpan: 4, styles: { fillColor: [200, 200, 200] } }], // Fila separadora con fondo gris
+                ["OFERTA VALIDA POR:", `${clientData.validationDays} Días`, "FECHA:", clientData.date]
+            ];
+            
+            doc.autoTable({
+                body: clientDetails,
+                startY: doc.previousAutoTable.finalY + 20,
+                theme: 'plain',
+                styles: { fontSize: 10, cellPadding: 2, minCellHeight: 12 },
+                columnStyles: {
+                    0: { cellWidth: 120 },
+                    1: { cellWidth: 150 },
+                    2: { cellWidth: 120 },
+                    3: { cellWidth: 150 }
+                }
+            });
+    
+            // Create the table header
             const tableColumn = ["Nombre del Producto", "Precio Mensual", "Instalación", "Cantidad", "Meses", "Total Producto"];
             const tableRows = [];
     
@@ -78,10 +126,11 @@ export const Cotizar = () => {
             doc.autoTable({
                 head: [tableColumn],
                 body: tableRows,
-                startY: 150,
+                startY: doc.previousAutoTable.finalY + 20,
+                headStyles: { fillColor: [169, 169, 169], textColor: [255, 255, 255], fontSize: 10 },
             });
     
-            // Resumen
+            // Summary
             const summaryRows = rows.map(row => [row.name, row.value]);
     
             doc.autoTable({
@@ -90,11 +139,10 @@ export const Cotizar = () => {
                 startY: doc.previousAutoTable.finalY + 20,
             });
     
-            // Guarda el PDF
+            // Save the PDF
             doc.save(`cotizacion_${code}.pdf`);
-            console.log("PDF generado y descargado");
         } catch (error) {
-            console.error("Error al generar el PDF:", error);
+            console.error("Error generating PDF:", error);
         }
     };
 
@@ -162,8 +210,15 @@ export const Cotizar = () => {
     const handleSubmit = async () => {
         const quotationHeader = {
             code,
-            name,
-            user: parseInt(user, 10),
+            name: clientData.name,
+            phone: clientData.phone,
+            validation_days: clientData.validationDays,
+            attention: clientData.attention,
+            RUC: clientData.RUC,
+            seller: clientData.seller,
+            address: clientData.address,
+            date: clientData.date,
+            user: user,
         };
     
         const quotationHeader_id = await setQuotationHeader({ refresh: localStorage.getItem('refresh'), data: quotationHeader });
@@ -205,31 +260,88 @@ export const Cotizar = () => {
             {/* Form for user, name, and code */}
             <Paper style={{ padding: '20px', marginBottom: '20px' }}>
                 <Typography variant='h6'>Información de la Cotización</Typography>
-                <TextField
-                    label="Código"
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                    fullWidth
-                    margin="normal"
-                    required
-                />
-                <TextField
-                    label="Nombre"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    fullWidth
-                    margin="normal"
-                    required
-                />
-                <TextField
-                    label="Usuario"
-                    type="number"
-                    value={user}
-                    onChange={(e) => setUser(e.target.value)}
-                    fullWidth
-                    margin="normal"
-                    required
-                />
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Código"
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
+                            fullWidth
+                            margin="normal"
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Nombre"
+                            value={clientData.name}
+                            onChange={(e) => setClientData({ ...clientData, name: e.target.value })}
+                            fullWidth
+                            margin="normal"
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Teléfono"
+                            value={clientData.phone}
+                            onChange={(e) => setClientData({ ...clientData, phone: e.target.value })}
+                            fullWidth
+                            margin="normal"
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Días de Validez"
+                            value={clientData.validationDays}
+                            onChange={(e) => setClientData({ ...clientData, validationDays: e.target.value })}
+                            fullWidth
+                            margin="normal"
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Atención"
+                            value={clientData.attention}
+                            onChange={(e) => setClientData({ ...clientData, attention: e.target.value })}
+                            fullWidth
+                            margin="normal"
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="RUC"
+                            value={clientData.RUC}
+                            onChange={(e) => setClientData({ ...clientData, RUC: e.target.value })}
+                            fullWidth
+                            margin="normal"
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Vendedor"
+                            value={clientData.seller}
+                            onChange={(e) => setClientData({ ...clientData, seller: e.target.value })}
+                            fullWidth
+                            margin="normal"
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Dirección"
+                            value={clientData.address}
+                            onChange={(e) => setClientData({ ...clientData, address: e.target.value })}
+                            fullWidth
+                            margin="normal"
+                            required
+                        />
+                    </Grid>
+                </Grid>
             </Paper>
 
             <TableContainer component={Paper}>
@@ -317,7 +429,11 @@ export const Cotizar = () => {
                 variant="contained"
                 color="primary"
                 style={{ marginTop: '20px' }}
-                onClick={handleSubmit}
+                onClick={() => {
+                    handleSubmit();
+                    generatePDF();
+                    window.location.reload();
+                }}
             >
                 Cotizar
             </Button>

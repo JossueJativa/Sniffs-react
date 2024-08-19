@@ -8,6 +8,13 @@ export const setQuotationHeader = async({ refresh, data }) => {
             {
                 code: `${data.id}`,
                 name: data.name,
+                phone: data.phone,
+                validation_days: data.validation_days,
+                attention: data.attention,
+                RUC: data.RUC,
+                seller: data.seller,
+                address: data.address,
+                date: data.date,
                 user: data.user
             }
         );
