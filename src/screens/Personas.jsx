@@ -1,11 +1,11 @@
-import { 
+import {
     bannerPersonas, bannerPersonas1, bannerPersonas2, bannerPersonas3,
     persona1, persona2, persona3, persona4, persona5, persona6, imagen7
 } from '../assets';
 import { Carrousel } from '../components';
 
 export const Personas = () => {
-    const carrousel = [ bannerPersonas1, bannerPersonas2, bannerPersonas3 ];
+    const carrousel = [bannerPersonas1, bannerPersonas2, bannerPersonas3];
     return (
         <>
             <Carrousel backgroundIMG={bannerPersonas} carrousel={carrousel} />
@@ -18,7 +18,7 @@ export const Personas = () => {
 
                         <img src={persona1} alt="Personas" width={700} />
 
-                        <a href="#" className="custom-btn">
+                        <a href="/planes" className="custom-btn">
                             Cotiza nuestros planes
                         </a>
                     </div>
@@ -56,7 +56,7 @@ export const Personas = () => {
                 </div>
                 <div className="item">
                     <p><strong>Descarga nuestra app</strong></p>
-                    <img src={imagen7} alt="demo celular" width={300}/>
+                    <img src={imagen7} alt="demo celular" width={300} />
                 </div>
             </div>
 

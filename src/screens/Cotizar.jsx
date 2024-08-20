@@ -5,10 +5,11 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { getProduct } from '../Controllers/productController';
 import { styled } from "@mui/material";
 import { jwtDecode } from 'jwt-decode';
-import { getLengthQuotation, setQuotationDetail, setQuotationHeader } from '../Controllers/quotationController';
+import { getLengthQuotation, setQuotationDetail, setQuotationHeader, searchQuotationfn, searchQuotationDetailfn } from '../Controllers/quotationController';
 import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { logoPNG } from '../assets';
 
 // Styled component for TableContainer
 const TableContainerStyled = styled(TableContainer)(({ theme }) => ({
@@ -60,43 +61,35 @@ export const Cotizar = () => {
         const doc = new jsPDF('p', 'pt', 'a4');
     
         try {
-            // Create the header with the quotation details in a table format
-            const headerData = [
-                ["COTIZACION No.", code, "Crystian Muñoz"],
-                ["ESTADO:", "", ""],
-                ["", "", ""],  // Empty row to create space
-                ['RUC: 1715838692001 - ', 'Japón N37-214 y Pasaje Mónaco - ', 'Tel(f): (+593) 996761198']
-            ];
+            doc.addImage(logoPNG, 'PNG', 40, 20, 60, 60);
     
-            doc.autoTable({
-                body: headerData,
-                startY: 40,
-                theme: 'plain',
-                styles: { fontSize: 10, cellPadding: 2, minCellHeight: 12 },
-                columnStyles: {
-                    0: { cellWidth: 150 },
-                    1: { cellWidth: 100 },
-                    2: { cellWidth: 240 }
-                },
-                headStyles: { fillColor: [221, 221, 221] }, 
-            });
+            // Añadir la información principal de la empresa en la parte derecha
+            doc.setFontSize(12);
+            doc.text("COTIZACION No.:", 120, 40);
+            doc.text(code, 220, 40);
+            doc.text("Crystian Muñoz", 120, 60);
     
-            // Reset font size for client details
             doc.setFontSize(10);
+            doc.text("RUC: 1715838692001", 120, 80);
+            doc.text("Japón N37-214 y Pasaje Mónaco", 220, 80);
+            doc.text("Tel(f): (+593) 996761198", 120, 100);
     
-            // Client details - Include all clientData fields
+            // Añadir un separador debajo del header
+            doc.setDrawColor(169, 169, 169);
+            doc.line(40, 110, 550, 110);  // Línea horizontal como separador
+    
+            // Crear la tabla con los detalles del cliente
             const clientDetails = [
                 ["CLIENTE:", clientData.name, "TELEFONO:", clientData.phone],
                 ["RUC:", clientData.RUC, "DIRECCION:", clientData.address],
                 ["ATENCION:", clientData.attention, "VENDEDOR:", clientData.seller],
-                // Fila separadora
-                [{ content: " ", colSpan: 4, styles: { fillColor: [200, 200, 200] } }], // Fila separadora con fondo gris
+                [{ content: " ", colSpan: 4, styles: { fillColor: [200, 200, 200] } }],
                 ["OFERTA VALIDA POR:", `${clientData.validationDays} Días`, "FECHA:", clientData.date]
             ];
-            
+    
             doc.autoTable({
                 body: clientDetails,
-                startY: doc.previousAutoTable.finalY + 20,
+                startY: 120,  // Ajusta el startY según la altura de la imagen y el texto del header
                 theme: 'plain',
                 styles: { fontSize: 10, cellPadding: 2, minCellHeight: 12 },
                 columnStyles: {
@@ -107,7 +100,7 @@ export const Cotizar = () => {
                 }
             });
     
-            // Create the table header
+            // Añadir el resto de las tablas (productos y resumen) como antes
             const tableColumn = ["Nombre del Producto", "Precio Mensual", "Instalación", "Cantidad", "Meses", "Total Producto"];
             const tableRows = [];
     
@@ -130,7 +123,6 @@ export const Cotizar = () => {
                 headStyles: { fillColor: [169, 169, 169], textColor: [255, 255, 255], fontSize: 10 },
             });
     
-            // Summary
             const summaryRows = rows.map(row => [row.name, row.value]);
     
             doc.autoTable({
@@ -139,12 +131,13 @@ export const Cotizar = () => {
                 startY: doc.previousAutoTable.finalY + 20,
             });
     
-            // Save the PDF
+            // Guardar el PDF
             doc.save(`cotizacion_${code}.pdf`);
         } catch (error) {
             console.error("Error generating PDF:", error);
         }
     };
+    
 
     useEffect(() => {
         const fetchProductsAndQuotation = async () => {
@@ -169,7 +162,43 @@ export const Cotizar = () => {
         };
     
         fetchProductsAndQuotation();
-    }, []);    
+    }, []);  
+    
+    const handleSearchQuotation = async () => {
+        const refresh = localStorage.getItem('refresh');
+        const response = await searchQuotationfn({ refresh, id: parseInt(searchQuotation) });
+    
+        if (response) {
+            setCode(response.id);
+            setClientData({
+                name: response.name ?? '',
+                phone: response.phone ?? '',
+                validationDays: response.validation_days ?? 0,
+                attention: response.attention ?? '',
+                RUC: response.RUC ?? '0000000000000',
+                seller: response.seller ?? 'Vendedor',
+                address: response.address ?? 'Quito',
+                date: response.date ?? new Date().toLocaleDateString(),
+            });
+        }
+    
+        const responseDetails = await searchQuotationDetailfn({ refresh, id: parseInt(searchQuotation) });
+    
+        const updatedQuantities = { ...quantities };
+        const updatedMonths = { ...months };
+    
+        for (let i = 0; i < responseDetails.length; i++) {
+            const product = products.find(product => product.name === responseDetails[i].product);
+            if (product) {
+                updatedQuantities[product.id] = responseDetails[i].quantity;
+                updatedMonths[product.id] = responseDetails[i].quotation_mensual;
+            }
+        }
+    
+        setQuantities(updatedQuantities);
+        setMonths(updatedMonths);
+        setCode(searchQuotation);
+    };    
 
     const handleQuantityChange = (id, value) => {
         const updatedQuantities = { ...quantities, [id]: Math.max(0, value) };
@@ -193,7 +222,7 @@ export const Cotizar = () => {
             subtotal += productTotal;
         });
 
-        const iva = subtotal * 0.12;
+        const iva = subtotal * 0.15;
         const total = subtotal + iva;
 
         setTotals({ subtotal, iva, total });
@@ -209,7 +238,6 @@ export const Cotizar = () => {
 
     const handleSubmit = async () => {
         const quotationHeader = {
-            code,
             name: clientData.name,
             phone: clientData.phone,
             validation_days: clientData.validationDays,
@@ -229,11 +257,12 @@ export const Cotizar = () => {
                 quantity: quantities[product.id],
                 quotation_mensual: months[product.id] || 0,
                 total: calculateProductTotal(quantities[product.id], months[product.id], product).toFixed(2),
-                quotation_header: quotationHeader_id,
+                quotation_header: quotationHeader_id, // quotationHeader_id
                 product: product.id,
             }));
-    
+            
         for (let i = 0; i < quotationDetails.length; i++) {
+            console.log(quotationDetails[i]);
             await setQuotationDetail({ refresh: localStorage.getItem('refresh'), data: quotationDetails[i] });
         }
     
@@ -245,7 +274,7 @@ export const Cotizar = () => {
     };
     const rows = [
         createData('Subtotal', `$${totals.subtotal.toFixed(2)}`),
-        createData('IVA (12%)', `$${totals.iva.toFixed(2)}`),
+        createData('IVA (15%)', `$${totals.iva.toFixed(2)}`),
         createData('Total', `$${totals.total.toFixed(2)}`)
     ];
 
@@ -257,7 +286,47 @@ export const Cotizar = () => {
                 color: '#131738'
             }}>Cotiza tu plan con nosotros</Typography>
 
-            {/* Form for user, name, and code */}
+            <Paper style={{ padding: '20px', marginBottom: '20px' }}>
+                <Typography variant='h6'>Buscar Cotización</Typography>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Código de Cotización"
+                            value={searchQuotation}
+                            onChange={(e) => setSearchQuotation(e.target.value)}
+                            fullWidth
+                            margin="normal"
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ marginTop: '20px' }}
+                            onClick={handleSearchQuotation}
+                        >
+                            Buscar
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ marginTop: '20px', marginLeft: '20px' }}
+                            onClick={() => window.location.reload()}
+                        >
+                            Recargar
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ marginTop: '20px', marginLeft: '20px' }}
+                            onClick={() => generatePDF()}
+                        >
+                            Imprimir
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Paper>
+
             <Paper style={{ padding: '20px', marginBottom: '20px' }}>
                 <Typography variant='h6'>Información de la Cotización</Typography>
                 <Grid container spacing={2}>
@@ -432,7 +501,6 @@ export const Cotizar = () => {
                 onClick={() => {
                     handleSubmit();
                     generatePDF();
-                    window.location.reload();
                 }}
             >
                 Cotizar

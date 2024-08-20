@@ -18,7 +18,7 @@ export const Pesados = () => {
 
                         <img src={imagenpesados1} alt="Pesados" width={700} />
 
-                        <a href="#" className="custom-btn">
+                        <a href="/planes" className="custom-btn">
                             Cotiza nuestros planes
                         </a>
                     </div>

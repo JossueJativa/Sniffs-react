@@ -1,5 +1,5 @@
 export {
-    logo, qrContact, iconFacebook,
+    logo, logoPNG, qrContact, iconFacebook,
     iconInstagram, iconLinkedin, iconTiktok
 } from './common';
 export {

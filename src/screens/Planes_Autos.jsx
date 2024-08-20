@@ -6,12 +6,14 @@ import { getProduct } from '../Controllers/productController';
 import { Button, Snackbar, Alert } from '@mui/material';
 import { addProductToCart } from '../Controllers/cartController';
 import { useCart } from '../Context/cartContext'; // Importa el hook del contexto
+import { useNavigate } from 'react-router-dom';
 
 export const Planes_Autos = () => {
     const [products, setProducts] = useState([]);
     const [alert, setAlert] = useState({ open: false, message: '', severity: '' });
     const { setCartCount } = useCart(); // Usa el hook del contexto para actualizar el estado del carrito
     const productIds = [1, 2];
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -35,12 +37,15 @@ export const Planes_Autos = () => {
     const handleAddToCart = (product_id) => {
         const fetchAddToCart = async () => {
             try {
+                if (!localStorage.getItem('refresh')) {
+                    navigate('/login', { state: { error_message: 'Inicia sección para continuar' } });
+                    return;
+                }
                 const response = await addProductToCart({ product_id, refresh: localStorage.getItem('refresh') });
                 console.log(response);
                 setAlert({ open: true, message: 'Producto añadido al carrito.', severity: 'success' });
                 setCartCount(prevCount => prevCount + 1);
             } catch (error) {
-                console.error("Error adding product to cart:", error);
                 setAlert({ open: true, message: 'Error al añadir el producto al carrito.', severity: 'error' });
             }
         }

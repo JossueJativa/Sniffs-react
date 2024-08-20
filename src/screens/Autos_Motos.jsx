@@ -16,7 +16,7 @@ export const Autos_Motos = () => {
 
           <img src={auto_moto} alt="auto_moto" width={700}/>
 
-          <a href="#" className="custom-btn">
+          <a href="/planes" className="custom-btn">
             Cotiza nuestros planes
           </a>
       </div>

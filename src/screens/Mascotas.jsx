@@ -1,11 +1,11 @@
-import { 
+import {
     bannerMascotas, bannerMascotas1, bannerMascotas2, bannerMascotas3,
     mascotasimg, iconoMascotas1, iconoMascotas2, iconoMascotas3, iconoMascotas4, iconoMascotas5, imagen7
 } from '../assets';
 import { Carrousel } from '../components';
 
 export const Mascotas = () => {
-    const carrousel = [ bannerMascotas1, bannerMascotas2, bannerMascotas3];
+    const carrousel = [bannerMascotas1, bannerMascotas2, bannerMascotas3];
     return (
         <>
             <Carrousel backgroundIMG={bannerMascotas} carrousel={carrousel} />
@@ -18,7 +18,7 @@ export const Mascotas = () => {
 
                         <img src={mascotasimg} alt="Personas" width={700} />
 
-                        <a href="#" className="custom-btn">
+                        <a href="/planes" className="custom-btn">
                             Cotiza nuestros planes
                         </a>
                     </div>
@@ -56,7 +56,7 @@ export const Mascotas = () => {
                 </div>
                 <div className="item">
                     <p><strong>Descarga nuestra app</strong></p>
-                    <img src={imagen7} alt="demo celular" width={300}/>
+                    <img src={imagen7} alt="demo celular" width={300} />
                 </div>
             </div>
 

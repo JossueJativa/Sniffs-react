@@ -35,6 +35,10 @@ export const Planes_Ganaderia = () => {
     const handleAddToCart = (product_id) => {
         const fetchAddToCart = async () => {
             try {
+                if (!localStorage.getItem('refresh')) {
+                    navigate('/login', { state: { error_message: 'Inicia sección para continuar' } });
+                    return;
+                }
                 await addProductToCart({ product_id, refresh: localStorage.getItem('refresh') });
 
                 setAlert({ open: true, message: 'Producto añadido al carrito.', severity: 'success' });

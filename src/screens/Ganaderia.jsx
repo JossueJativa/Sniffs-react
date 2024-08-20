@@ -1,11 +1,11 @@
-import { 
+import {
     bannerGanaderia, bannerGanaderia1, bannerGanaderia2, bannerGanaderia3,
     imagen7, ganaderia1, ganaderia2, ganaderia3, ganaderia4, ganaderia5, ganaderia6
 } from '../assets';
 import { Carrousel } from '../components';
 
 export const Ganaderia = () => {
-    const carrousel = [ bannerGanaderia1, bannerGanaderia2, bannerGanaderia3];
+    const carrousel = [bannerGanaderia1, bannerGanaderia2, bannerGanaderia3];
     return (
         <>
             <Carrousel backgroundIMG={bannerGanaderia} carrousel={carrousel} />
@@ -18,7 +18,7 @@ export const Ganaderia = () => {
 
                         <img src={ganaderia1} alt="Personas" width={700} />
 
-                        <a href="#" className="custom-btn">
+                        <a href="/planes" className="custom-btn">
                             Cotiza nuestros planes
                         </a>
                     </div>
@@ -57,7 +57,7 @@ export const Ganaderia = () => {
                 </div>
                 <div className="item">
                     <p><strong>Descarga nuestra app</strong></p>
-                    <img src={imagen7} alt="demo celular" width={300}/>
+                    <img src={imagen7} alt="demo celular" width={300} />
                 </div>
             </div>
 

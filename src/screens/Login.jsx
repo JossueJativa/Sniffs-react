@@ -1,10 +1,12 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
+import { Alert, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import { useState } from "react";
 import { login } from "../Controllers/userController";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const Login = () => {
+    const location = useLocation();
+    const { error_message } = location.state || {};
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -55,6 +57,12 @@ export const Login = () => {
     return (
         <div className="login-container">
             <div className="center-form">
+                {error_message && <Alert severity="error" style={{
+                    width: '100%',
+                    marginBottom: '1rem',
+                    textAlign: 'center',
+                    color: 'red',
+                }}>{ error_message }</Alert>}
                 <form onSubmit={handleSubmit}>
                     <h4>
                         <strong>Inicio de sesión</strong>
