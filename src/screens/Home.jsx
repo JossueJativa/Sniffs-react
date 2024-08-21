@@ -68,7 +68,7 @@ export const Home = () => {
                             <div className="background-img">
                                 <img src={camiones} alt="icon" width={100} />
                             </div>
-                            <Link to="/camiones">
+                            <Link to="/pesados">
                                 <Typography variant="p">Camiones</Typography>
                             </Link>
                         </div>
