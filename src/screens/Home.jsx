@@ -108,15 +108,21 @@ export const Home = () => {
                 </div>
                 <div className="grid-item text-center">
                     <div className="grid-3-items">
-                        <div className="button-box">
+                        <div className="button-box" style={{
+                            cursor: 'none'
+                        }}>
                             <img src={WhatsApp} alt="icon" width={100} />
                             <Typography variant="p">Escríbenos a nuestro chat de WhatsApp y un asesor se pondrá en contacto contigo</Typography>
                         </div>
-                        <div className="button-box">
+                        <div className="button-box" style={{
+                            cursor: 'none'
+                        }}>
                             <img src={demo} alt="icon" width={100} />
                             <Typography variant="p">Descarga nuestra aplicación desde tu dispositivo Movil</Typography>
                         </div>
-                        <div className="button-box">
+                        <div className="button-box" style={{
+                            cursor: 'none'
+                        }}>
                             <img src={descarga} alt="icon" width={100} />
                             <Typography variant="p">Solicita un demo y descubre como funciona</Typography>
                         </div>

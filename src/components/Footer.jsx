@@ -44,7 +44,7 @@ export const Footer = () => {
                 </Grid>
             </Grid>
             <div className="center">
-                <p>© Powered by Crystian Muños | 2023</p>
+                <p>© Powered by Crystian Muñoz | 2023</p>
             </div>
         </footer>
     );
